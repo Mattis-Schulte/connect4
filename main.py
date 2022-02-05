@@ -3,8 +3,9 @@
 
 # Connect 4
 # Mattis Schulte | Sajan Sivapatham    2022-02-11
+# Connect four to win, you can play either against a friend or an primitive AI
+
 # https://github.com/Mattis-Schulte/connect4
-# Connect 4 to win and play against either a friend or an primitive AI
 
 from os import system
 from random import choice
