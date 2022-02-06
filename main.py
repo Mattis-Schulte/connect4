@@ -17,6 +17,7 @@ from assets.game import ConnectFourGame
 from assets.player import Player
 
 if __name__ == "__main__":
+    system('clear')
     print('''
               ██╗   ██╗██╗███████╗██████╗   
               ██║   ██║██║██╔════╝██╔══██╗  
