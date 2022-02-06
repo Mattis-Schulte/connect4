@@ -32,22 +32,21 @@ class ConnectFourBoard:
         """  Check for validity and set the token """
         if not any(0 in _i for _i in self.field):
             raise BoardFullError('The board is completely filled!')
+        elif column not in self.identifier:
+            raise ValueError() from None
         else:
-            if column not in self.identifier:
-                raise ValueError() from None
+            column = self.identifier.index(column)
+            if column > self.X_MAX:
+                raise IndexError() from None
             else:
-                column = self.identifier.index(column)
-                if column > self.X_MAX:
-                    raise IndexError() from None
-                else:
-                    rowcount = 0
-                    for row in self.field[column]:
-                        if row == 0:
-                            self.field[column][rowcount] = token
-                            break
-                        rowcount += 1
-                        if rowcount == self.Y_MAX:
-                            raise ColumnFullError('This column is already full!')
+                rowcount = 0
+                for row in self.field[column]:
+                    if row == 0:
+                        self.field[column][rowcount] = token
+                        break
+                    rowcount += 1
+                    if rowcount == self.Y_MAX:
+                        raise ColumnFullError('This column is already full!')
 
     def print_board(self):
         """ Print the board """
@@ -339,10 +338,11 @@ if __name__ == "__main__":
         Game.play()
     else:
         Board.print_board()
-        if Board.is_board_full():
-            print('Das Spiel ist unentschieden!')
-        else:
+        if Board.get_winning_positions():
             exec('winner_name, winner_color = p' + str(Board.is_winnig(Board.get_winning_positions())) + '.name, p' + str(Board.is_winnig(Board.get_winning_positions())) + '.color')
             winner_color = winner_color.replace('RED', 'Rot').replace('GREEN', 'Grün').replace('YELLOW', 'Gelb')
             print(f'{winner_name} ({winner_color}) hat mit folgenden Steinen gewonnen: ', end='')
             [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions()]
+            print()
+        elif Board.is_board_full():
+            print('Das Spiel ist unentschieden!')
