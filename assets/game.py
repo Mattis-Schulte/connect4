@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from copy import deepcopy
-from random import choice
+from random import choice, sample
 
 from assets.errors import ColumnFullError, AIModeError
 
@@ -35,7 +35,8 @@ class ConnectFourGame:
     def set_ai(self):
         """ The AI algorithm, it wants to either win or avoid losing if neither is possible it will put the token in a random column """
         for win in reversed(range(0, 2)):
-            for column in range(self.board.X_MAX):
+            # Check the game situation in each column in a random order
+            for column in sample(list(range(self.board.X_MAX)), len(list(range(self.board.X_MAX)))):
                 rowcount = 0
                 for row in self.board.field[column]:
                     if row == 0:

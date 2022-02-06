@@ -70,7 +70,7 @@ if __name__ == "__main__":
                     usr_input = usr_input.upper().replace('ROT', 'RED').replace('GRÜN', 'GREEN').replace('GELB', 'YELLOW')
                     p1 = Player(usr_name, valid_colors, usr_input)
                     valid_colors.colors.remove(usr_input)
-                    p2 = Player('Die Primitive KI', valid_colors, choice(valid_colors.colors))
+                    p2 = Player('Primitive KI', valid_colors, choice(valid_colors.colors))
                     Game = ConnectFourGame(Board, 1)
                     break
                 except WrongColError:

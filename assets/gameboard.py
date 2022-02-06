@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from os import system, name
+
 from assets.errors import ColumnFullError, BoardFullError
 
 if name == 'nt':
