@@ -3,6 +3,7 @@
 
 from assets.errors import WrongColError
 
+
 class Player:
     def __init__(self, name, valid_colors, the_color):
         self.name = name

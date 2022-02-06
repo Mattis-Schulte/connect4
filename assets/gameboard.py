@@ -1,14 +1,18 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 from os import system
 
 from assets.errors import ColumnFullError, BoardFullError
+
 
 class ConnectFourBoard:
     """ Board to play ConnectFour """
     EMPTY = 0
     PLAYER1 = 1
     PLAYER2 = 2
-    X_MAX = 6  # 5 columns
-    Y_MAX = 7  # 6 rows
+    X_MAX = 7  # 7 columns
+    Y_MAX = 6  # 6 rows
 
     identifier = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
@@ -74,7 +78,7 @@ class ConnectFourBoard:
         else:
             return False
 
-    def is_winnig(self, winning_positions_list):
+    def is_winning(self, winning_positions_list):
         """ Check, who is winning """
         return self.field[winning_positions_list[0][0]][winning_positions_list[0][1]]
 
@@ -84,7 +88,7 @@ class ConnectFourBoard:
         for column in range(self.X_MAX - 3):
             for row in range(self.Y_MAX):
                 if board[column][row] == board[column + 1][row] == board[column + 2][row] == board[column + 3][row] != 0:
-                    return [[column, row], [column + 1, row], [column + 2, row], [column + 3, row ]]
+                    return [[column, row], [column + 1, row], [column + 2, row], [column + 3, row]]
 
         # Check vertically
         for row in range(self.Y_MAX - 3):
@@ -93,7 +97,7 @@ class ConnectFourBoard:
                     return [[column, row], [column, row + 1], [column, row + 2], [column, row + 3]]
 
         # Skip diagonal checks if column count is less than 4
-        if (self.X_MAX < 4):
+        if self.X_MAX < 4:
             return False
             
         # Check up-diagonally

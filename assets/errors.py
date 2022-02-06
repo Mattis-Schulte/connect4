@@ -29,7 +29,7 @@ class AIModeError(ConnectFourError):
 
 
 class WrongColError(ConnectFourError):
-    """ Indicates that the user has choosen a invalid color """
+    """ Indicates that the user has chosen an invalid color """
     def __init__(self, message):
         # Call the base class constructor with the parameters it needs
         super().__init__(message)

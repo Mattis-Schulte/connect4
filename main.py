@@ -3,7 +3,7 @@
 
 # Connect 4
 # Mattis Schulte | Sajan Sivapatham    2022-02-11
-# Connect four to win, you can play either against a friend or an primitive AI
+# Connect four to win, you can play either against a friend or a primitive AI
 
 # https://github.com/Mattis-Schulte/connect4
 
@@ -18,12 +18,12 @@ from assets.player import Player
 
 if __name__ == "__main__":
     print('''
-██╗   ██╗██╗███████╗██████╗    ██████╗ ███████╗ ██╗       ██╗██╗███╗  ██╗███╗  ██╗████████╗
-██║   ██║██║██╔════╝██╔══██╗  ██╔════╝ ██╔════╝ ██║  ██╗  ██║██║████╗ ██║████╗ ██║╚══██╔══╝
-╚██╗ ██╔╝██║█████╗  ██████╔╝  ██║  ██╗ █████╗   ╚██╗████╗██╔╝██║██╔██╗██║██╔██╗██║   ██║   
- ╚████╔╝ ██║██╔══╝  ██╔══██╗  ██║  ╚██╗██╔══╝    ████╔═████║ ██║██║╚████║██║╚████║   ██║   
-  ╚██╔╝  ██║███████╗██║  ██║  ╚██████╔╝███████╗  ╚██╔╝ ╚██╔╝ ██║██║ ╚███║██║ ╚███║   ██║   
-   ╚═╝   ╚═╝╚══════╝╚═╝  ╚═╝   ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚══╝╚═╝  ╚══╝   ╚═╝   
+██╗   ██╗██╗███████╗██████╗      ██████╗ ███████╗ ██╗       ██╗██╗███╗  ██╗███╗  ██╗████████╗
+██║   ██║██║██╔════╝██╔══██╗    ██╔════╝ ██╔════╝ ██║  ██╗  ██║██║████╗ ██║████╗ ██║╚══██╔══╝
+╚██╗ ██╔╝██║█████╗  ██████╔╝    ██║  ██╗ █████╗   ╚██╗████╗██╔╝██║██╔██╗██║██╔██╗██║   ██║   
+ ╚████╔╝ ██║██╔══╝  ██╔══██╗    ██║  ╚██╗██╔══╝    ████╔═████║ ██║██║╚████║██║╚████║   ██║   
+  ╚██╔╝  ██║███████╗██║  ██║    ╚██████╔╝███████╗  ╚██╔╝ ╚██╔╝ ██║██║ ╚███║██║ ╚███║   ██║   
+   ╚═╝   ╚═╝╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚══╝╚═╝  ╚══╝   ╚═╝   
         ''')
     print('Wählen Sie einen Spielmodus:')
     print('(1) Einzelspieler (KI-Modus)')
@@ -37,6 +37,7 @@ if __name__ == "__main__":
         usr_input = input('>> ')
     else:
         valid_colors = Color()
+        Board = ConnectFourBoard()
         # AI mode selected
         if usr_input.upper() == '1':
             system('clear')
@@ -57,7 +58,6 @@ if __name__ == "__main__":
                     p1 = Player(usr_name, valid_colors, usr_input)
                     valid_colors.colors.remove(usr_input)
                     p2 = Player('Primitive KI', valid_colors, choice(valid_colors.colors))
-                    Board = ConnectFourBoard()
                     Game = ConnectFourGame(Board, 1)
                     break
                 except WrongColError:
@@ -84,9 +84,8 @@ if __name__ == "__main__":
                 while True:
                     try:
                         usr_input = usr_input.upper().replace('ROT', 'RED').replace('GRÜN', 'GREEN').replace('GELB', 'YELLOW')
-                        exec('p' + str(i) + ' = ' + 'Player("' + usr_name + '", valid_colors, "' + usr_input +'")')
+                        exec('p' + str(i) + ' = ' + 'Player("' + usr_name + '", valid_colors, "' + usr_input + '")')
                         valid_colors.colors.remove(usr_input)
-                        Board = ConnectFourBoard()
                         Game = ConnectFourGame(Board, 2)
                         break
                     except WrongColError:
@@ -99,8 +98,8 @@ if __name__ == "__main__":
     else:
         Board.print_board(p1, p2)
         if Board.get_winning_positions(Board.field):
-            exec('winner_name = p' + str(Board.is_winnig(Board.get_winning_positions(Board.field))) + '.name')
-            exec('winner_color = p' + str(Board.is_winnig(Board.get_winning_positions(Board.field))) + '.color')
+            exec('winner_name = p' + str(Board.is_winning(Board.get_winning_positions(Board.field))) + '.name')
+            exec('winner_color = p' + str(Board.is_winning(Board.get_winning_positions(Board.field))) + '.color')
             winner_color = winner_color.replace('RED', 'Rot').replace('GREEN', 'Grün').replace('YELLOW', 'Gelb')
             print(f'{winner_name} ({winner_color}) hat mit folgenden Steinen gewonnen: ', end='')
             [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions(Board.field)]
