@@ -9,6 +9,7 @@
 
 from os import system
 from random import choice
+from copy import deepcopy
 
 
 class ConnectFourBoard:
@@ -16,8 +17,8 @@ class ConnectFourBoard:
     EMPTY = 0
     PLAYER1 = 1
     PLAYER2 = 2
-    X_MAX = 5  # 5 columns
-    Y_MAX = 6  # 6 rows
+    X_MAX = 6  # 5 columns
+    Y_MAX = 7  # 6 rows
 
     identifier = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
@@ -54,14 +55,14 @@ class ConnectFourBoard:
         print('\nVIER GEWINNT\n')
 
         sep = '+'
-        for _ in range(0, self.X_MAX):
+        for _ in range(self.X_MAX):
             sep += '------+'
         print(sep)
 
         translated_colors = {'RED': '🔴', 'GREEN': '🟢', 'YELLOW': '🟡'}
 
-        for row in reversed(range(0, self.Y_MAX)):
-            for column in range(0, self.X_MAX):
+        for row in reversed(range(self.Y_MAX)):
+            for column in range(self.X_MAX):
                 if self.field[column][row] == 0:
                     print('|    ', end='  ')
                 elif self.field[column][row] == 1:
@@ -71,82 +72,67 @@ class ConnectFourBoard:
             print('|\n' + sep)
 
         # Print identifiers
-        for _i in range(0, self.X_MAX):
+        for _i in range(self.X_MAX):
             print('    ' + self.identifier[_i], end='  ')
 
         print('\n')
 
     def is_board_full(self):
-        """ Check, if the board is full"""
+        """ Check, if the board is full """
         if not any(0 in _i for _i in self.field):
             return True
         else:
             return False
 
     def is_winnig(self, winning_positions_list):
-        """ Check, who is winning"""
+        """ Check, who is winning """
         return self.field[winning_positions_list[0][0]][winning_positions_list[0][1]]
 
-    def get_winning_positions(self):
-        """ Check, if there is a win-situation and return the position"""
+    def get_winning_positions(self, board):
+        """ Check, if there is a win-situation and return the position """
         # Check horizontally
-        for column in range(0, self.X_MAX):
-            for row in range(0, self.Y_MAX):
-                try:
-                    if self.field[row][column] == self.field[row][column + 1] == self.field[row][column + 2] == self.field[row][column + 3] != 0:
-                        return [[row, column], [row, column + 1], [row, column + 2], [row, column + 3]]
-                except IndexError:
-                    break
+        for column in range(self.X_MAX - 3):
+            for row in range(self.Y_MAX):
+                if board[column][row] == board[column + 1][row] == board[column + 2][row] == board[column + 3][row] != 0:
+                    return [[column, row], [column + 1, row], [column + 2, row], [column + 3, row ]]
 
         # Check vertically
-        for row in range(0, self.Y_MAX):
-            for column in range(0, self.X_MAX):
-                try:
-                    if self.field[row][column] == self.field[row + 1][column] == self.field[row + 2][column] == self.field[row + 3][column] != 0:
-                        return [[row, column], [row + 1, column], [row + 2, column], [row + 3, column]]
-                except IndexError:
-                    break
+        for row in range(self.Y_MAX - 3):
+            for column in range(self.X_MAX):
+                if board[column][row] == board[column][row + 1] == board[column][row + 2] == board[column][row + 3] != 0:
+                    return [[column, row], [column, row + 1], [column, row + 2], [column, row + 3]]
 
         # Check up-diagonally
-        for column in range(0, self.X_MAX):
-            for row in range(0, self.Y_MAX):
-                try:
-                    if self.field[row][column] == self.field[row + 1][column + 1] == self.field[row + 2][column + 2] == self.field[row + 3][column + 3] != 0:
-                        return [[row, column], [row + 1, column + 1], [row + 2, column + 2], [row + 3, column + 3]]
-                except IndexError:
-                    break
+        for column in range(self.X_MAX - 3):
+            for row in range(self.Y_MAX - 3):
+                if board[column][row] == board[column + 1][row + 1] == board[column + 2][row + 2] == board[column + 3][row + 3] != 0:
+                    return [[column, row], [column + 1, row + 1], [column + 2, row + 2], [column + 3, row + 3]]
 
         # Check down-diagonally
-        for column in range(0, self.X_MAX):
-            for row in range(0, self.Y_MAX):
-                try:
-                    if self.field[row][column] == self.field[row + 1][column - 1] == self.field[row + 2][column - 2] == self.field[row + 3][column - 3] != 0:
-                        return [[row, column], [row + 1, column - 1], [row + 2, column - 2], [row + 3, column - 3]]
-                except IndexError:
-                    break
+        for column in range(self.X_MAX - 3):
+            for row in range(3, self.Y_MAX):
+                if board[column][row] == board[column + 1][row - 1] == board[column + 2][row - 2] == board[column + 3][row - 3] != 0:
+                    return [[column, row], [column + 1, row - 1], [column + 2, row - 2], [column + 3, row - 3]]
 
         return False
 
 
 class ConnectFourError(Exception):
-    """Indicates that it is a ConnectFourError"""
-
+    """ Indicates that it is a ConnectFourError """
     def __init__(self, message):
         # Call the base class constructor with the parameters it needs
         super().__init__(message)
 
 
 class ColumnFullError(ConnectFourError):
-    """Indicates that the column is completely filled with tokens."""
-
+    """ Indicates that the column is completely filled with tokens """
     def __init__(self, message):
         # Call the base class constructor with the parameters it needs
         super().__init__(message)
 
 
 class BoardFullError(ConnectFourError):
-    """Indicates that the board is completely filled with tokens."""
-
+    """ Indicates that the board is completely filled with tokens """
     def __init__(self, message):
         # Call the base class constructor with the parameters it needs
         super().__init__(message)
@@ -180,10 +166,11 @@ class Color:
 
 
 class ConnectFourGame:
-    """The actual Game. Gives each player its turn or gets into automatic mode."""
-
+    """ The actual Game. Gives each player its turn or gets into automatic mode """
     AI = 1
     TWO_PLAYERS = 2
+
+    identifier = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
     def __init__(self, board, mode):
         self.board = board
@@ -200,11 +187,32 @@ class ConnectFourGame:
         self.board.set_token(column.upper(), 2)
         self.active_player = 1
 
-        if self.game == ConnectFourGame.AI:
+        if self.game == self.AI:
             raise AIModeError('Game is in automatic mode!')
 
     def set_ai(self):
-        self.board.set_token(choice(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'][0:self.board.X_MAX]), 2)
+        """ The AI ​​algorithm, it wants to either win or avoid losing if neither is possible it will put the token in a random column """
+        for win in reversed(range(0,2)):
+            for column in range(self.board.X_MAX):
+                rowcount = 0
+                for row in self.board.field[column]:
+                    if row == 0:
+                        test_board = deepcopy(self.board.field)
+                        # Prioritize winning over avoiding losing
+                        if win:
+                            test_board[column][rowcount] = 2
+                        else:
+                            test_board[column][rowcount] = 1
+
+                        if self.board.get_winning_positions(test_board):
+                            self.board.set_token(self.identifier[column], 2)
+                            self.active_player = 1
+                            return
+                        break
+                    rowcount += 1
+        
+        # Choose random column
+        self.board.set_token(choice(self.identifier[0:self.board.X_MAX]), 2)
         self.active_player = 1
 
     def play(self):
@@ -220,7 +228,7 @@ class ConnectFourGame:
                     print('Fehlerhafte Auswahl!')
                 except ColumnFullError:
                     print('Diese Spalte ist schon voll!')
-        elif self.active_player == 2 and self.game != ConnectFourGame.AI:
+        elif self.active_player == 2 and self.game != self.AI:
             # Player two's turn
             self.board.print_board()
             while True:
@@ -231,7 +239,7 @@ class ConnectFourGame:
                     print('Fehlerhafte Auswahl!')
                 except ColumnFullError:
                     print('Diese Spalte ist schon voll!')
-        elif self.active_player == 2 and self.game == ConnectFourGame.AI:
+        elif self.active_player == 2 and self.game == self.AI:
             # AI's turn
             self.board.print_board()
             while True:
@@ -249,8 +257,7 @@ class AIModeError(ConnectFourError):
 
 
 class WrongColError(ConnectFourError):
-    """Indicates that the user has choosen a invalid color."""
-
+    """ Indicates that the user has choosen a invalid color """
     def __init__(self, message):
         # Call the base class constructor with the parameters it needs
         super().__init__(message)
@@ -334,15 +341,16 @@ if __name__ == "__main__":
                         usr_input = input('>> ')
 
     # Running the actual game
-    while not (Board.is_board_full()) and not (Board.get_winning_positions()):
+    while not (Board.is_board_full()) and not (Board.get_winning_positions(Board.field)):
         Game.play()
     else:
         Board.print_board()
-        if Board.get_winning_positions():
-            exec('winner_name, winner_color = p' + str(Board.is_winnig(Board.get_winning_positions())) + '.name, p' + str(Board.is_winnig(Board.get_winning_positions())) + '.color')
+        if Board.get_winning_positions(Board.field):
+            exec('winner_name = p' + str(Board.is_winnig(Board.get_winning_positions(Board.field))) + '.name')
+            exec('winner_color = p' + str(Board.is_winnig(Board.get_winning_positions(Board.field))) + '.color')
             winner_color = winner_color.replace('RED', 'Rot').replace('GREEN', 'Grün').replace('YELLOW', 'Gelb')
             print(f'{winner_name} ({winner_color}) hat mit folgenden Steinen gewonnen: ', end='')
-            [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions()]
+            [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions(Board.field)]
             print()
         elif Board.is_board_full():
             print('Das Spiel ist unentschieden!')
