@@ -7,7 +7,7 @@
 
 # https://github.com/Mattis-Schulte/connect4
 
-from os import system
+from os import system, name
 from random import choice
 
 from assets.gameboard import ConnectFourBoard
@@ -16,8 +16,13 @@ from assets.errors import WrongColError
 from assets.game import ConnectFourGame
 from assets.player import Player
 
+if name == 'nt':
+    clear_cmd = 'system("cls")'
+else:
+    clear_cmd = 'system("clear")'
+
 if __name__ == "__main__":
-    system('clear')
+    exec(clear_cmd)
     print('''
               ██╗   ██╗██╗███████╗██████╗   
               ██║   ██║██║██╔════╝██╔══██╗  
@@ -48,13 +53,13 @@ if __name__ == "__main__":
         Board = ConnectFourBoard()
         # AI mode selected
         if usr_input.upper() == '1':
-            system('clear')
+            exec(clear_cmd)
             usr_name = 'Spieler 1'
             print('Bitte geben Sie ihren Benutzernamen ein!')
             usr_input = input('>> ')
             if usr_input != '':
                 usr_name = usr_input
-            system('clear')
+            exec(clear_cmd)
 
             # Select color
             color_helper = (' '.join(valid_colors.colors).replace('RED', 'Rot').replace('GREEN', 'Grün').replace('YELLOW', 'Gelb')).split()
@@ -75,14 +80,14 @@ if __name__ == "__main__":
         elif usr_input.upper() == '2':
             # Loop twice to configure both players
             for i in range(1, 3):
-                system('clear')
+                exec(clear_cmd)
                 usr_name = 'Spieler ' + str(i)
                 print(f'Spieler {i}:')
                 print('Bitte geben Sie ihren Benutzernamen ein!')
                 usr_input = input('>> ')
                 if usr_input != '':
                     usr_name = usr_input
-                system('clear')
+                exec(clear_cmd)
 
                 # Select color
                 print(f'Spieler {i}:')

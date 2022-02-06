@@ -1,9 +1,13 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from os import system
-
+from os import system, name
 from assets.errors import ColumnFullError, BoardFullError
+
+if name == 'nt':
+    clear_cmd = 'system("cls")'
+else:
+    clear_cmd = 'system("clear")'
 
 
 class ConnectFourBoard:
@@ -45,7 +49,7 @@ class ConnectFourBoard:
 
     def print_board(self, p1, p2):
         """ Print the board """
-        system('clear')
+        exec(clear_cmd)
         print('\nVIER GEWINNT\n')
 
         sep = '+'
