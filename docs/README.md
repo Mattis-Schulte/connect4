@@ -1,11 +1,11 @@
 **Vier Gewinnt – Mattis Schulte, Sajan Sivapatham | [GitHub](https://github.com/Mattis-Schulte/connect4/)**
 
 ## Aufgabenstellung
-Am Anfang hat der Lehrer das Spiel erklärt. Dabei hatte ein Schüler ein Protokoll angefertigt wo alle nötigen Methoden und deren Erklärungen festgehalten wurde. Als das Protokoll fertigestellt wurde haben die Schüler die noch leeren Methoden übernommen die man für das Spiel benötigt. Die Schüler hatten dann nur die notwedigen leeren Methoden und die dazugehörigen Erklärungen parat.
+Am Anfang hat der Lehrer das Vier Gewinnt-Spiel erklärt. Dabei hatte ein Schüler ein Protokoll angefertigt wo alle nötigen Methoden und deren Erklärungen festgehalten wurde. Als das Protokoll fertigestellt wurde haben die Schüler die noch leeren Methoden übernommen die man für das Spiel benötigt. Die Schüler hatten dann nur die notwedigen leeren Methoden und die dazugehörigen Erklärungen parat um das Spiel zu entwickeln.
 
-- Die vorgegebenen leeren Methoden des Lehrers mussten benutzt werden
-- Unten Links muss der Startpunkt sein (x=0/y=0)(wie im Koordinatensystem)
-- 
+- Die vorgegebenen leeren Methoden des Lehrers mussten benutzt werden.
+- Unten Links muss der Startpunkt sein (x=0/y=0)(wie im Koordinatensystem).
+- EXTRA: Als extra kann man neben der Auswahl zum Zweispielermodus auch ein KI-Modus einbauen sodass man allein gegen ein Computerspieler spielt.
 
 
 ## Liste der verwendeten Ausstattung 
@@ -14,10 +14,142 @@ Am Anfang hat der Lehrer das Spiel erklärt. Dabei hatte ein Schüler ein Protok
 - Python 3.9 
 - [Replit](https://replit.com/) (Webseite mit einer Online-IDE, Editor, Compiler und Interpreter) 
 
+## Spielregeln
+Um das Spiel zu spielen muss man zuerst wissen wie es gespielt wird
 ## Programm
 ### Benutzeranleitung:
-Um das P
+Wenn man das Spiel gestartet hat kommt man in das Spielmenü wo der Benutzer auswählen kann im welchen Spielmodus er spielen will:
+````
 
+              ██╗   ██╗██╗███████╗██████╗   
+              ██║   ██║██║██╔════╝██╔══██╗  
+              ╚██╗ ██╔╝██║█████╗  ██████╔╝  
+               ╚████╔╝ ██║██╔══╝  ██╔══██╗  
+                ╚██╔╝  ██║███████╗██║  ██║  
+                 ╚═╝   ╚═╝╚══════╝╚═╝  ╚═╝  
+
+ ██████╗ ███████╗ ██╗       ██╗██╗███╗  ██╗███╗  ██╗████████╗
+██╔════╝ ██╔════╝ ██║  ██╗  ██║██║████╗ ██║████╗ ██║╚══██╔══╝
+██║  ██╗ █████╗   ╚██╗████╗██╔╝██║██╔██╗██║██╔██╗██║   ██║   
+██║  ╚██╗██╔══╝    ████╔═████║ ██║██║╚████║██║╚████║   ██║   
+╚██████╔╝███████╗  ╚██╔╝ ╚██╔╝ ██║██║ ╚███║██║ ╚███║   ██║   
+ ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚══╝╚═╝  ╚══╝   ╚═╝   
+    
+Wählen Sie einen Spielmodus:
+(1) Einzelspieler (KI-Modus)
+(2) Zweispieler
+>> 
+````
+Dabei hat er die Auswahl zwischen einem primitiven Computergegner oder er kann das Spiel mit einem menschlichen Gegenspieler starten.
+
+
+
+
+### (1) Einzelspieler (KI-Modus)
+Wenn der Benutzer den Einzelspielermodus (also gegen denn Computergegner) wählt muss der Benutzer sein Benutzernamen eingeben:
+````
+Bitte geben Sie ihren Benutzernamen ein!
+>>
+````
+Nachdem der Benutzer sein Benutzernamen eingegeben hatte wird man zur Farbauswahl gebeten:
+````
+Bitte wählen Sie ihre Farbe (Rot, Grün oder Gelb)!
+>> 
+````
+Der Benutzer muss dann eines der drei Farben die zur Auswahl stehen eingeben.
+Nachdem der Spieler eine Farbe ausgewählt hat wird er zum Spielfeld weitergeleitet wo der Benutzer denn ersten Spielstein setzen darf. Dabei darf er nur die Spalte auswählen (A-G) wo er denn Spielstein einwerfen möchte.
+
+````
+VIER GEWINNT
+
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+    A      B      C      D      E      F      G  
+
+Spieler 1 (Rot) ist am Zug >> a
+````
+Nachdem der Benutzer die Spalte eingegeben hat wird der Spielstein gesetzt und der Computergegner setzt dann sein Spielstein auch automatisch ein (In diesem Fall ist der Computergegner Gelb):
+````
+VIER GEWINNT
+
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|  🔴  |      |      |  🟡  |      |      |      |
++------+------+------+------+------+------+------+
+    A      B      C      D      E      F      G  
+
+Spieler 1 (Rot) ist am Zug >> 
+````
+Danach geht das Spiel weiter bis Spielbrett voll ist oder jemand gewonnen hat:
+
+#### Der Benutzer hat gewonnen:
+````
+VIER GEWINNT
+
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|  🔴  |  🔴  |  🔴 |  🔴  |  🟡  |  🟡 |  🟡  |
++------+------+------+------+------+------+------+
+    A      B      C      D      E      F      G  
+
+Spieler 1 (Rot) hat mit folgenden Steinen gewonnen: (1|0) (2|0) (3|0) (4|0)
+````
+
+
+#### Die primitive KI hat gewonnen:
+````
+VIER GEWINNT
+
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |  🔴  |      |      |
++------+------+------+------+------+------+------+
+|  🟡  |  🟡  |  🟡 |  🟡  |  🔴  |  🔴 |  🔴  |
++------+------+------+------+------+------+------+
+    A      B      C      D      E      F      G  
+
+Die Primitive KI (Gelb) hat mit folgenden Steinen gewonnen: (1|0) (2|0) (3|0) (4|0)
+````
+
+### (2) Zweispieler
+Der Zweispielermodus ist so ähnlich aufgebaut wie der Einzelspielermodus.
+Wenn der Benutzer denn Zweispielermodus gewählt hat gibt dieser 
 ### Programmteile erklärt:
 #### Klasse und Variablen anlegen 
 ````python
@@ -25,7 +157,7 @@ Um das P
 ````
 In diesem Teil des Codes wird unsere Klasse `Cipher`, sowie alle für die Ver- und Entschlüsselung benötigten Variablen angelegt bzw. übernommen. Außerdem wird hier auch schon die CRC32 Prüfsumme des Passwortes gebildet, geteilt und der Zufalls-Seed mit einem Teil dieser Prüfsumme initialisiert. Zudem wird auch die benötigte Pseudozufallszahl generiert.
 
-#### Verschlüsselung
+#### Erklärung der einzelnen Methoden:
 ````python
 
 ````
@@ -57,4 +189,4 @@ In diesem Teil bzw. im Hauptteil fügen wir die benötigten Argumente sowie die 
 > `mycipher.encode_with_caesar()` oder `mycipher.decode_with_caesar()` – nun rufen wir mit unserem Objekt die Methode zum Ver- oder Entschlüsseln auf
 
 ## Fazit
-Zusammenfassend kann man sagen, dass das Projekt "Verschlüsselung" eine Herausforderung war, uns aber auch viel gelehrt hat. Besonders schwierig war es, sicherzustellen, dass die Verschlüsselung genau wie gewünscht funktioniert. Da man schnell eine Verschlüsselungsmethode geschrieben hatte, die scheinbar funktioniert, jedoch bei genauerem Hinsehen die Dateien nicht wie beabsichtigt verschlüsselt. Nichtsdestotrotz haben wir einiges dazugelernt und hoffen, dass wir das Gelernte in Zukunft weiter vertiefen können.
+Abschließend kann man sagen, dass das Projekt "Vier Gewinnt" eine ziemliche Herausforderung war, da wir keine richtige Aufgabenstellung vom Lehrer erhalten haben und wir uns am Protokoll des Schülers orientieren mussten. Auch gab es Missverständnisse und wurden zu philosophischen Gedankengänge verleitet, weil wir manchmal nicht genau wussten, warum eine Methode genau genutzt werden sollte und manche dieser Methoden uns überflüssig erschienen sind. Jedoch ist uns beim Nachfragen des Lehrers und der Definitionserklärung der Methoden von den Schülern uns gelungen, das Projekt fertigzustellen.
