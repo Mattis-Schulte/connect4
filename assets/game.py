@@ -36,8 +36,8 @@ class ConnectFourGame:
         """ The AI algorithm, it wants to either win or avoid losing if neither is possible it will put the token in a random column """
         valid_columns = [x for x in range(0, len(self.board.field)) if 0 in self.board.field[x]]
 
+        # Check if the game can be won or a loss avoided
         for win in reversed(range(0, 2)):
-            # Check the game situation in each column in a random order
             for column in sample(valid_columns, len(valid_columns)):
                 test_board = deepcopy(self.board.field)
                 # Prioritize winning over avoiding losing
@@ -51,6 +51,21 @@ class ConnectFourGame:
                     self.active_player = 1
                     return
         
+        # Check to prevent a random token from being placed in the opponent's favour
+        for random_column in sample(valid_columns, len(valid_columns)):
+            test_board = deepcopy(self.board.field)
+            test_board[random_column][self.board.field[random_column].index(0)] = 1
+            if 0 in test_board[random_column]:
+                test_board[random_column][self.board.field[random_column].index(0) + 1] = 1
+                if not self.board.get_winning_positions(test_board):
+                    self.board.set_token(self.identifier[random_column], 2)
+                    self.active_player = 1
+                    return
+            else:
+                self.board.set_token(self.identifier[random_column], 2)
+                self.active_player = 1
+                return
+
         # Choose random column
         self.board.set_token(self.identifier[choice(valid_columns)], 2)
         self.active_player = 1
