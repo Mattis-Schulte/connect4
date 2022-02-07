@@ -54,7 +54,7 @@ class ConnectFourGame:
         # Check to prevent a random token from being placed in the opponent's favour
         for random_column in sample(valid_columns, len(valid_columns)):
             test_board = deepcopy(self.board.field)
-            test_board[random_column][self.board.field[random_column].index(0)] = 1
+            test_board[random_column][self.board.field[random_column].index(0)] = 2
             if 0 in test_board[random_column]:
                 test_board[random_column][self.board.field[random_column].index(0) + 1] = 1
                 if not self.board.get_winning_positions(test_board):
