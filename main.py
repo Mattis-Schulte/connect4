@@ -42,6 +42,7 @@ if __name__ == "__main__":
     print('(1) Einzelspieler (KI-Modus)')
     print('(2) Zweispieler')
 
+    color_helper = {'RED': 'Rot', 'GREEN': 'Grün', 'YELLOW': 'Gelb', 'BLUE': 'Blau'}
     usr_input = input('>> ')
 
     # Check if user input is valid
@@ -62,12 +63,13 @@ if __name__ == "__main__":
             exec(clear_cmd)
 
             # Select color
-            color_helper = (' '.join(valid_colors.colors).replace('RED', 'Rot').replace('GREEN', 'Grün').replace('YELLOW', 'Gelb')).split()
-            print(f'Bitte wählen Sie ihre Farbe ({" oder ".join([", ".join(color_helper[:-1]), color_helper[-1]])})!')
+            print(f'Bitte wählen Sie ihre Farbe ({" oder ".join([", ".join(color_helper[key] for key in valid_colors.colors[:-1]), color_helper[valid_colors.colors[-1]]])})!')
             usr_input = input('>> ')
             while True:
                 try:
-                    usr_input = usr_input.upper().replace('ROT', 'RED').replace('GRÜN', 'GREEN').replace('GELB', 'YELLOW')
+                    if usr_input.upper() in dict((v.upper(),k) for k,v in color_helper.items()):
+                        usr_input = dict((v.upper(),k) for k,v in color_helper.items())[usr_input.upper()]
+
                     p1 = Player(usr_name, valid_colors, usr_input)
                     valid_colors.colors.remove(usr_input)
                     p2 = Player('Primitive KI', valid_colors, choice(valid_colors.colors))
@@ -91,12 +93,13 @@ if __name__ == "__main__":
 
                 # Select color
                 print(f'Spieler {i}:')
-                color_helper = (' '.join(valid_colors.colors).replace('RED', 'Rot').replace('GREEN', 'Grün').replace('YELLOW', 'Gelb')).split()
-                print(f'Bitte wählen Sie ihre Farbe ({" oder ".join([", ".join(color_helper[:-1]), color_helper[-1]])})!')
+                print(f'Bitte wählen Sie ihre Farbe ({" oder ".join([", ".join(color_helper[key] for key in valid_colors.colors[:-1]), color_helper[valid_colors.colors[-1]]])})!')
                 usr_input = input('>> ')
                 while True:
                     try:
-                        usr_input = usr_input.upper().replace('ROT', 'RED').replace('GRÜN', 'GREEN').replace('GELB', 'YELLOW')
+                        if usr_input.upper() in dict((v.upper(),k) for k,v in color_helper.items()):
+                            usr_input = dict((v.upper(),k) for k,v in color_helper.items())[usr_input.upper()]
+
                         exec('p' + str(i) + ' = ' + 'Player("' + usr_name + '", valid_colors, "' + usr_input + '")')
                         valid_colors.colors.remove(usr_input)
                         Game = ConnectFourGame(Board, 2)
@@ -113,7 +116,7 @@ if __name__ == "__main__":
         if Board.get_winning_positions(Board.field):
             exec('winner_name = p' + str(Board.is_winning(Board.get_winning_positions(Board.field))) + '.name')
             exec('winner_color = p' + str(Board.is_winning(Board.get_winning_positions(Board.field))) + '.color')
-            winner_color = winner_color.replace('RED', 'Rot').replace('GREEN', 'Grün').replace('YELLOW', 'Gelb')
+            winner_color = color_helper[winner_color]
             print(f'{winner_name} ({winner_color}) hat mit folgenden Steinen gewonnen: ', end='')
             [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions(Board.field)]
             print()

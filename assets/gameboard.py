@@ -53,7 +53,7 @@ class ConnectFourBoard:
             sep += '------+'
         print(sep)
 
-        translated_colors = {'RED': '🔴', 'GREEN': '🟢', 'YELLOW': '🟡'}
+        translated_colors = {'RED': '🔴', 'GREEN': '🟢', 'YELLOW': '🟡', 'BLUE': '🔵'}
 
         for row in reversed(range(self.Y_MAX)):
             for column in range(self.X_MAX):

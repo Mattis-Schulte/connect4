@@ -4,4 +4,4 @@
 class Color:
     def __init__(self):
         # Valid colors
-        self.colors = ['RED', 'GREEN', 'YELLOW']
+        self.colors = ['RED', 'GREEN', 'YELLOW', 'BLUE']
