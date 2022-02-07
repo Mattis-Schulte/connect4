@@ -21,7 +21,7 @@ class ConnectFourBoard:
 
     identifier = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-    def _init__(self):
+    def __init__(self):
         self.field = None
 
     def reset_board(self):
