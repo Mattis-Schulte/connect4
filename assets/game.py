@@ -37,25 +37,22 @@ class ConnectFourGame:
         for win in reversed(range(0, 2)):
             # Check the game situation in each column in a random order
             for column in sample(list(range(self.board.X_MAX)), len(list(range(self.board.X_MAX)))):
-                rowcount = 0
-                for row in self.board.field[column]:
-                    if row == 0:
-                        test_board = deepcopy(self.board.field)
-                        # Prioritize winning over avoiding losing
-                        if win:
-                            test_board[column][rowcount] = 2
-                        else:
-                            test_board[column][rowcount] = 1
+                if 0 in self.board.field[column]:
+                    test_board = deepcopy(self.board.field)
+                    # Prioritize winning over avoiding losing
+                    if win:
+                        test_board[column][self.board.field[column].index(0)] = 2
+                    else:
+                        test_board[column][self.board.field[column].index(0)] = 1
 
-                        if self.board.get_winning_positions(test_board):
-                            self.board.set_token(self.identifier[column], 2)
-                            self.active_player = 1
-                            return
-                        break
-                    rowcount += 1
+                    if self.board.get_winning_positions(test_board):
+                        self.board.set_token(self.identifier[column], 2)
+                        self.active_player = 1
+                        return
         
         # Choose random column
-        self.board.set_token(choice(self.identifier[0:self.board.X_MAX]), 2)
+        valid_columns = [self.identifier[x] for x in range(0, len(self.board.field)) if 0 in self.board.field[x]]
+        self.board.set_token(choice(valid_columns), 2)
         self.active_player = 1
 
     def play(self, p1, p2):
@@ -85,9 +82,4 @@ class ConnectFourGame:
         elif self.active_player == 2 and self.game == self.AI:
             # AI's turn
             self.board.print_board(p1, p2)
-            while True:
-                try:
-                    self.set_ai()
-                    break
-                except ColumnFullError:
-                    pass
+            self.set_ai()

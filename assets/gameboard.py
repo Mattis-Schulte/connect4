@@ -21,7 +21,7 @@ class ConnectFourBoard:
 
     identifier = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-    def __init__(self):
+    def _init__(self):
         self.field = None
 
     def reset_board(self):
@@ -30,7 +30,7 @@ class ConnectFourBoard:
 
     def set_token(self, column: str, token: int):
         """  Check for validity and set the token """
-        if not any(0 in _i for _i in self.field):
+        if not any(0 in i for i in self.field):
             raise BoardFullError('The board is completely filled!')
         elif column not in self.identifier:
             raise ValueError() from None
@@ -38,15 +38,10 @@ class ConnectFourBoard:
             column = self.identifier.index(column)
             if column > self.X_MAX:
                 raise IndexError() from None
+            elif 0 in self.field[column]:
+                self.field[column][self.field[column].index(0)] = token
             else:
-                rowcount = 0
-                for row in self.field[column]:
-                    if row == 0:
-                        self.field[column][rowcount] = token
-                        break
-                    rowcount += 1
-                    if rowcount == self.Y_MAX:
-                        raise ColumnFullError('This column is already full!')
+                raise ColumnFullError('This column is already full!')
 
     def print_board(self, p1, p2):
         """ Print the board """
@@ -71,14 +66,14 @@ class ConnectFourBoard:
             print('|\n' + sep)
 
         # Print identifiers
-        for _i in range(self.X_MAX):
-            print('    ' + self.identifier[_i], end='  ')
+        for i in range(self.X_MAX):
+            print('    ' + self.identifier[i], end='  ')
 
         print('\n')
 
     def is_board_full(self):
         """ Check, if the board is full """
-        if not any(0 in _i for _i in self.field):
+        if not any(0 in i for i in self.field):
             return True
         else:
             return False
