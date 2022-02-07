@@ -67,8 +67,8 @@ if __name__ == "__main__":
             usr_input = input('>> ')
             while True:
                 try:
-                    if usr_input.upper() in dict((v.upper(),k) for k,v in color_helper.items()):
-                        usr_input = dict((v.upper(),k) for k,v in color_helper.items())[usr_input.upper()]
+                    if usr_input.upper() in dict((v.upper(), k) for k, v in color_helper.items()):
+                        usr_input = dict((v.upper(), k) for k, v in color_helper.items())[usr_input.upper()]
 
                     p1 = Player(usr_name, valid_colors, usr_input)
                     valid_colors.colors.remove(usr_input)
@@ -97,8 +97,8 @@ if __name__ == "__main__":
                 usr_input = input('>> ')
                 while True:
                     try:
-                        if usr_input.upper() in dict((v.upper(),k) for k,v in color_helper.items()):
-                            usr_input = dict((v.upper(),k) for k,v in color_helper.items())[usr_input.upper()]
+                        if usr_input.upper() in dict((v.upper(), k) for k, v in color_helper.items()):
+                            usr_input = dict((v.upper(), k) for k, v in color_helper.items())[usr_input.upper()]
 
                         exec('p' + str(i) + ' = ' + 'Player("' + usr_name + '", valid_colors, "' + usr_input + '")')
                         valid_colors.colors.remove(usr_input)
