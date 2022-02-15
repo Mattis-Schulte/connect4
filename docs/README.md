@@ -45,7 +45,7 @@ Dabei hat er die Auswahl zwischen einem primitiven Computergegner oder er kann d
 
 
 
-### (1) Einzelspieler (KI-Modus)
+#### (1) Einzelspieler (KI-Modus)
 Wenn der Benutzer den Einzelspielermodus (also gegen denn Computergegner) wählt muss der Benutzer sein Benutzernamen eingeben:
 ````
 Bitte geben Sie ihren Benutzernamen ein!
@@ -102,7 +102,7 @@ Spieler 1 (Rot) ist am Zug >>
 ````
 Danach geht das Spiel weiter bis Spielbrett voll ist oder jemand gewonnen hat:
 
-#### Der Benutzer hat gewonnen:
+##### Der Benutzer hat gewonnen:
 ````
 VIER GEWINNT
 
@@ -125,7 +125,7 @@ Spieler 1 (Rot) hat mit folgenden Steinen gewonnen: (1|0) (2|0) (3|0) (4|0)
 ````
 
 
-#### Die primitive KI hat gewonnen:
+##### Die primitive KI hat gewonnen:
 ````
 VIER GEWINNT
 
@@ -148,7 +148,7 @@ Primitive KI (Gelb) hat mit folgenden Steinen gewonnen: (1|0) (2|0) (3|0) (4|0)
 ````
 
 
-#### Unentschieden:
+##### Unentschieden:
 ````
 VIER GEWINNT
 
@@ -170,46 +170,128 @@ VIER GEWINNT
 Das Spiel ist unentschieden!
 ````
 
-### (2) Zweispieler
+#### (2) Zweispieler
 Der Zweispielermodus ist so ähnlich aufgebaut wie der Einzelspielermodus.
 Wenn der Benutzer denn Zweispielermodus gewählt hat gibt dieser 
 ### Programmteile erklärt:
-#### Klasse und Variablen anlegen 
+#### Hauptteil (main.py)
 ````python
+exec(clear_cmd)
+usr_name = 'Spieler 1'
+print('Bitte geben Sie ihren Benutzernamen ein!')
+usr_input = input('>> ')
+if usr_input != '':
+    usr_name = usr_input
+exec(clear_cmd)
 
+# Select color
+print(f'Bitte wählen Sie ihre Farbe ({" oder ".join([", ".join(color_helper[key] for key in valid_colors.colors[:-1]), color_helper[valid_colors.colors[-1]]])})!')
+usr_input = input('>> ')
+while True:
+    try:
+        if usr_input.upper() in dict((v.upper(), k) for k, v in color_helper.items()):
+            usr_input = dict((v.upper(), k) for k, v in color_helper.items())[usr_input.upper()]
+
+        p1 = Player(usr_name, valid_colors, usr_input)
+        valid_colors.colors.remove(usr_input)
+        p2 = Player('Primitive KI', valid_colors, choice(valid_colors.colors))
+        Game = ConnectFourGame(Board, 1)
+        break
+    except WrongColError:
+        print('Fehlerhafte Auswahl!')
 ````
-In diesem Teil des Codes wird unsere Klasse `Cipher`, sowie alle für die Ver- und Entschlüsselung benötigten Variablen angelegt bzw. übernommen. Außerdem wird hier auch schon die CRC32 Prüfsumme des Passwortes gebildet, geteilt und der Zufalls-Seed mit einem Teil dieser Prüfsumme initialisiert. Zudem wird auch die benötigte Pseudozufallszahl generiert.
+In diesem Teil des Codes wird der Benutzer nach seinem Namen und seiner Farbe gefragt, falls der Benutzer kein Namen angegeben hat, wird der Standardname also hier z. B. Spieler 1 gewählt. Außerdem kann der Benutzer nur zwischen den erlaubten Farben `valid_colors` wählen, wenn er eine korrekte Farbe ausgewählt hat, wird dann eine Spieler-Instanz für den Benutzer und eine für die KI erstellt – der Name der KI lautet "Primitive KI" und die Farbe der KI wird zufällig gewählt. Aufgrund dessen entfernen wir auch vorher die vom Benutzer gewählte Farbe aus der Liste der erlaubten Farben, damit die KI nicht dieselbe Farbe wählen kann. Außerdem erstellen wir hier auch schon die Instanz für das eigentliche Spiel, der wir das Board und den Spielmodus (1 oder 2) übergeben: `Game = ConnectFourGame(Board, 1)`
 
-#### Erklärung der einzelnen Methoden:
 ````python
-
+# Running the actual game
+while not (Board.is_board_full()) and not (Board.get_winning_positions(Board.field)):
+    Game.play(p1, p2)
+else:
+    Board.print_board(p1, p2)
+    if Board.get_winning_positions(Board.field):
+        exec('winner_name = p' + str(Board.is_winning(Board.get_winning_positions(Board.field))) + '.name')
+        exec('winner_color = p' + str(Board.is_winning(Board.get_winning_positions(Board.field))) + '.color')
+        winner_color = color_helper[winner_color]
+        print(f'{winner_name} ({winner_color}) hat mit folgenden Steinen gewonnen: ', end='')
+        [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions(Board.field)]
+        print()
+    elif Board.is_board_full():
+        print('Das Spiel ist unentschieden!')
 ````
-> Hier findet die eigentliche Verschlüsselung statt. Falls jedoch kein Dateipfad zur Ausgabedatei angegeben wurde, muss zuerst noch einer generiert werden. Dies geschieht, indem zuerst der Dateipfad zum Ordner der Eingabedatei bestimmt und dann mit dem Standardnamen der Ausgabedatei kombiniert wird. Der Standardname ist wie folgt aufgebaut: `cip + (die Länge der Dateiendung der Eingabedatei) + (die Dateiendung der Eingabedatei)`, als Dateiendung wird `.cip` benutzt. Beispiel: "cip3gif.cip"
+In diesem Abschnitt wird, solange bis das Spielbrett voll ist oder jemand gewonnen hat, das eigentliche Spiel laufen gelassen. Dafür rufen wir die Methode `play` der `Game` Instanz auf und übergeben dieser die Instanzen der beiden Spieler. Zudem geben wir in diesem Teil auch falls jemand gewonnen hat, den Namen des Gewinners, seine Farbe und die Steine aus, mit denen er gewonnen hat. Falls das Spiel unentschieden ist, wird das ebenfalls hier ausgegeben.
 
-Wenn der Dateipfad zur Ausgabedatei klar ist, wird die Eingabedatei im binären Lesemodus und die Ausgabedatei im binären Schreibmodus geöffnet – `with open(self.input_file_, 'rb') as r, open(self.output_file_, 'wb') as w:`. Als Nächstes wird eine Schleife ausgeführt, diese Schleife erhält mithilfe der `enumerate` Funktion die Variablen `i` und `x`, `i` zählt die Anzahl der Bytes und `x` enthält den Wert des jeweiligen Bytes. 
-
-Mithilfe von `i` wird die Unicode-Nummer eines Zeichen des Passworts bestimmt (in der nächsten Iteration immer das nächst weitere Zeichen), diese Nummer wird dann mit einem Teil der CRC32 Prüfsumme, der vorher bestimmten Pseudozufallszahl und mit `x ` (also dem Wert des jeweiligen Byte der Iteration) addiert. Falls das Ergebnis größer als 255 ist, wird von 0 weiter gezählt, so wird jedes Byte der Datei nach und nach verändert und in die Ausgabedatei geschrieben.
-
-#### Entschlüsselung
+#### Die Spiele-Klasse (game.py)
+In dieser Klasse findet das eigentliche Spiel statt, so werden in dieser Klasse die Spielzüge durchgeführt, bestimmt wer am Zug ist und der Algorithmus der KI ist ebenfalls in dieser Klasse.
 ````python
+def set_ai(self):
+    """ The AI algorithm, it wants to either win or avoid losing if neither is possible it will put the token in a random column """
+    valid_columns = [x for x in range(0, len(self.board.field)) if 0 in self.board.field[x]]
 
+    # Check if the game can be won or a loss avoided
+    for win in reversed(range(0, 2)):
+        for column in sample(valid_columns, len(valid_columns)):
+            test_board = deepcopy(self.board.field)
+            # Prioritize winning over avoiding losing
+            if win:
+                test_board[column][self.board.field[column].index(0)] = 2
+            else:
+                test_board[column][self.board.field[column].index(0)] = 1
+
+            if self.board.get_winning_positions(test_board):
+                self.board.set_token(self.identifier[column], 2)
+                self.active_player = 1
+                return
+        
+    # Check to prevent a random token from being placed in the opponent's favour
+    for random_column in sample(valid_columns, len(valid_columns)):
+        test_board = deepcopy(self.board.field)
+        test_board[random_column][self.board.field[random_column].index(0)] = 2
+        if 0 in test_board[random_column]:
+            test_board[random_column][self.board.field[random_column].index(0) + 1] = 1
+            if not self.board.get_winning_positions(test_board):
+                self.board.set_token(self.identifier[random_column], 2)
+                self.active_player = 1
+                return
+        else:
+            self.board.set_token(self.identifier[random_column], 2)
+            self.active_player = 1
+            return
+
+    # Choose random column
+    self.board.set_token(self.identifier[choice(valid_columns)], 2)
+    self.active_player = 1
 ````
-Das Entschlüsselungsverfahren unterscheidet sich kaum von der Verschlüsselung, es wird lediglich nicht mehr zum Byte addiert, sondern subtrahiert. Zudem wird der Dateipfad zur Ausgabedatei, wenn dieser nicht angegeben wurde, anders generiert.
-
-> Diese Generation geschieht, indem jeglich die Dateiendung des Pfads der Eingabedatei verändert wird. Dazu trennen wir den Dateipfad am Punkt und benutzten nur den vordern Teil und fügen noch die Dateiendung an, die wir aus denn Dateiname der Eingabedatei auslesen – `self.output_file_ = self.input_file_.split('.')[0] + '.' + self.input_file_.split('/')[-1][4:-4]`
-
-#### Hauptteil und Argumente
+Dies ist die Methode des KI-Algorithmus, als erstes werden alle möglichen Spalten ermittelt. Im ersten Abschnitt prüft die KI dann mit der Methode `get_winning_positions` der "Board-Klasse" ob es eine Spalte gibt, die die KI nutzen könnte, um zu gewinnen oder den Nutzer zumindest am Gewinnen zu hindern (dabei, wird der Sieg natürlich bevorzugt). Gibt es keine Spalte, in der dies der Fall ist, wird eine zufällige Spalte ausgewählt. Es wird vorher allerdings noch geprüft, ob der Zug vorteilhaft für den Gegner ist, also ob man durch seinen Zug den Gegner es ermöglicht vier nebeneinander zulegen (dafür ist der zweite Abschnitt da), falls dies nicht der Fall ist oder es keine andere Möglichkeit gibt, legt die KI.
 ````python
-
+def play(self, p1, p2):
+    color_helper = {'RED': 'Rot', 'GREEN': 'Grün', 'YELLOW': 'Gelb', 'BLUE': 'Blau'}
+    self.board.print_board(p1, p2)
+    if self.active_player == 1:
+        # Player one's turn
+        while True:
+            try:
+                self.set_player1(input(f'{p1.name} ({color_helper[p1.color]}) ist am Zug >> '))
+                break
+            except(ValueError, IndexError):
+                print('Fehlerhafte Auswahl!')
+            except ColumnFullError:
+                print('Diese Spalte ist schon voll!')
+    elif self.active_player == 2 and self.game != self.AI:
+        # Player two's turn
+        while True:
+            try:
+                self.set_player2(input(f'{p2.name} ({color_helper[p2.color]}) ist am Zug >> '))
+                break
+            except(ValueError, IndexError):
+                print('Fehlerhafte Auswahl!')
+            except ColumnFullError:
+                print('Diese Spalte ist schon voll!')
+    elif self.active_player == 2 and self.game == self.AI:
+        # AI's turn
+       self.set_ai()
 ````
-In diesem Teil bzw. im Hauptteil fügen wir die benötigten Argumente sowie die Logik hinter diesen hinzu. 
-> Nennenswerte Ausschnitte sind: 
-> 
-> `args = parser.parse_args()` – hier werden die Argument in der `args` Variable gespeichert über die wir sie später auslesen können
-> 
-> `mycipher = Cipher(args.inputfile, args.outputfile, args.password)` – hier werden mit denn durch die Argumente eingegeben Daten ein Objekt mit unser Klasse `Cipher` erstellt
-> 
-> `mycipher.encode_with_caesar()` oder `mycipher.decode_with_caesar()` – nun rufen wir mit unserem Objekt die Methode zum Ver- oder Entschlüsseln auf
+Dies ist die Spiele Methode, in dieser werden die eigentliche Spielzuge durchgeführt oder die KI aufgerufen. Zudem werden hier auch Fehler wie eine fehlerhafte Eingabe der Spalte oder die Eingabe einer vollen Spalte behandelt und eine Fehlermeldung für den Benutzer ausgegeben.
+
 
 ## Fazit
 Abschließend kann man sagen, dass das Projekt "Vier Gewinnt" eine ziemliche Herausforderung war, da wir keine richtige Aufgabenstellung vom Lehrer erhalten haben und wir uns am Protokoll des Schülers orientieren mussten. Auch gab es Missverständnisse und wurden zu philosophischen Gedankengänge verleitet, weil wir manchmal nicht genau wussten, warum eine Methode genau genutzt werden sollte und manche dieser Methoden uns überflüssig erschienen sind. Jedoch ist uns beim Nachfragen des Lehrers und der Definitionserklärung der Methoden von den Schülern uns gelungen, das Projekt fertigzustellen.
