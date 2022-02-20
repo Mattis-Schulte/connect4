@@ -15,7 +15,7 @@ Am Anfang hat der Lehrer das Vier Gewinnt-Spiel erklärt. Dabei hatte ein Schül
 - [Replit](https://replit.com/) (Webseite mit einer Online-IDE, Editor, Compiler und Interpreter) 
 
 ## Spielregeln
-Um das Spiel zu spielen muss man zuerst wissen wie es gespielt wird
+Die Spielregeln von Vier gewinnt, sind sehr einfach erklärt. Der Spieler kann gewinnen, indem er mit seinen zugehörigen Spielsteinen abwechselnd eine Reihe mit mindestens 4 Spielsteinen legt. Er kann diese Reihe vertikal, horizontal oder diagonal verlegen. Das Einzige, was man beachten muss, ist, dass diese vierer Reihe nicht durch ein gegnerischen Spielstein belegt wird. So kann man das Spiel spielen, bis man selbst gewonnen hat, der Gegner gewonnen hat oder bis das Spielbrett voll ist.
 ## Programm
 ### Benutzeranleitung:
 Wenn man das Spiel gestartet hat kommt man in das Spielmenü wo der Benutzer auswählen kann im welchen Spielmodus er spielen will:
@@ -46,18 +46,18 @@ Dabei hat er die Auswahl zwischen einem primitiven Computergegner oder er kann d
 
 
 #### (1) Einzelspieler (KI-Modus)
-Wenn der Benutzer den Einzelspielermodus (also gegen denn Computergegner) wählt muss der Benutzer sein Benutzernamen eingeben:
+Wenn der Benutzer den Einzelspielermodus (also gegen denn Computergegner) wählt, muss der Benutzer seinen Benutzernamen eingeben:
 ````
 Bitte geben Sie ihren Benutzernamen ein!
 >>
 ````
-Nachdem der Benutzer sein Benutzernamen eingegeben hatte wird man zur Farbauswahl gebeten:
+Nachdem der Benutzer seinen Benutzernamen eingegeben hat, wird man zur Farbauswahl gebeten:
 ````
 Bitte wählen Sie ihre Farbe (Rot, Grün oder Gelb)!
 >> 
 ````
-Der Benutzer muss dann eines der drei Farben die zur Auswahl stehen eingeben.
-Nachdem der Spieler eine Farbe ausgewählt hat wird er zum Spielfeld weitergeleitet wo der Benutzer denn ersten Spielstein setzen darf. Dabei darf er nur die Spalte auswählen (A-G) wo er denn Spielstein einwerfen möchte.
+Der Benutzer muss dann seine gewünschte Spielsteinfarbe eingeben.
+Nachdem der Spieler eine Farbe ausgewählt hat, wird er zum Spielfeld weitergeleitet, wo der Benutzer denn ersten Spielstein setzen darf. Dabei darf er nur die Spalte auswählen (A-G), wo er denn Spielstein einwerfen möchte.
 
 ````
 VIER GEWINNT
@@ -79,7 +79,7 @@ VIER GEWINNT
 
 Spieler 1 (Rot) ist am Zug >> a
 ````
-Nachdem der Benutzer die Spalte eingegeben hat wird der Spielstein gesetzt und der Computergegner setzt dann sein Spielstein auch automatisch ein (In diesem Fall ist der Computergegner Gelb):
+Nachdem der Benutzer die Spalte eingegeben hat, wird der Spielstein gesetzt und der Computergegner setzt dann sein Spielstein auch automatisch ein (Der Computergegner hat nach Zufallsprinzip die Farbe Gelb ausgewählt):
 ````
 VIER GEWINNT
 
@@ -100,7 +100,7 @@ VIER GEWINNT
 
 Spieler 1 (Rot) ist am Zug >> 
 ````
-Danach geht das Spiel weiter bis Spielbrett voll ist oder jemand gewonnen hat:
+Danach geht das Spiel weiter, bis Spielbrett voll ist oder jemand gewonnen hat:
 
 ##### Der Benutzer hat gewonnen:
 ````
@@ -140,7 +140,7 @@ VIER GEWINNT
 +------+------+------+------+------+------+------+
 |      |      |      |      |  🔴  |      |      |
 +------+------+------+------+------+------+------+
-|  🟡  |  🟡  |  🟡 |  🟡  |  🔴  |  🔴 |  🔴  |
+|  🟡  |  🟡  |  🟡 |  🟡 |  🔴  |  🔴 |  🔴  |
 +------+------+------+------+------+------+------+
     A      B      C      D      E      F      G  
 
@@ -172,7 +172,26 @@ Das Spiel ist unentschieden!
 
 #### (2) Zweispieler
 Der Zweispielermodus ist so ähnlich aufgebaut wie der Einzelspielermodus.
-Wenn der Benutzer denn Zweispielermodus gewählt hat gibt dieser 
+Wenn der Benutzer denn Zweispielermodus gewählt hat, wird dieser gebeten, denn Namen des ersten Spielers zu wählen.
+
+
+````
+Spieler 1:
+Bitte geben Sie ihren Benutzernamen ein!
+>>
+````
+Auch hier wird abgefragt welche Farbe der Spieler möchte.
+
+````
+Spieler 1:
+Bitte wählen Sie ihre Farbe (Rot, Grün, Gelb oder Blau)!
+>> 
+````
+
+#### Beim zweiten Spieler sind die Abfragen identisch außer bei der Wahl der Farbe. Denn die Farbe, die der erste Spieler gewählt hat, wird dann dem zweiten Spieler nicht mehr zur Verfügung stehen.
+
+Nachdem beide Spieler ihren Benutzernamen und Farben ausgewählt haben, wird das Spiel gestartet und das SPielbrett erscheint.
+
 ### Programmteile erklärt:
 #### Hauptteil (main.py)
 ````python
@@ -261,7 +280,7 @@ def set_ai(self):
     self.board.set_token(self.identifier[choice(valid_columns)], 2)
     self.active_player = 1
 ````
-Dies ist die Methode des KI-Algorithmus, als erstes werden alle möglichen Spalten ermittelt. Im ersten Abschnitt prüft die KI dann mit der Methode `get_winning_positions` der "Board-Klasse" ob es eine Spalte gibt, die die KI nutzen könnte, um zu gewinnen oder den Nutzer zumindest am Gewinnen zu hindern (dabei, wird der Sieg natürlich bevorzugt). Gibt es keine Spalte, in der dies der Fall ist, wird eine zufällige Spalte ausgewählt. Es wird vorher allerdings noch geprüft, ob der Zug vorteilhaft für den Gegner ist, also ob man durch seinen Zug den Gegner es ermöglicht vier nebeneinander zulegen (dafür ist der zweite Abschnitt da), falls dies nicht der Fall ist oder es keine andere Möglichkeit gibt, legt die KI.
+Dies ist die Methode des KI-Algorithmus, als Erstes werden alle möglichen Spalten ermittelt. Im ersten Abschnitt prüft die KI dann mit der Methode `get_winning_positions` der "Board-Klasse" ob es eine Spalte gibt, die die KI nutzen könnte, um zu gewinnen oder den Nutzer zumindest am Gewinnen zu hindern (dabei, wird der Sieg natürlich bevorzugt). Gibt es keine Spalte, in der dies der Fall ist, wird eine zufällige Spalte ausgewählt. Es wird vorher allerdings noch geprüft, ob der Zug vorteilhaft für den Gegner ist, also ob man durch seinen Zug den Gegner es ermöglicht vier nebeneinander zulegen (dafür ist der zweite Abschnitt da), falls dies nicht der Fall ist oder es keine andere Möglichkeit gibt, legt die KI.
 ````python
 def play(self, p1, p2):
     color_helper = {'RED': 'Rot', 'GREEN': 'Grün', 'YELLOW': 'Gelb', 'BLUE': 'Blau'}
@@ -294,4 +313,4 @@ Dies ist die Spiele Methode, in dieser werden die eigentliche Spielzuge durchgef
 
 
 ## Fazit
-Abschließend kann man sagen, dass das Projekt "Vier Gewinnt" eine ziemliche Herausforderung war, da wir keine richtige Aufgabenstellung vom Lehrer erhalten haben und wir uns am Protokoll des Schülers orientieren mussten. Auch gab es Missverständnisse und wurden zu philosophischen Gedankengänge verleitet, weil wir manchmal nicht genau wussten, warum eine Methode genau genutzt werden sollte und manche dieser Methoden uns überflüssig erschienen sind. Jedoch ist uns beim Nachfragen des Lehrers und der Definitionserklärung der Methoden von den Schülern uns gelungen, das Projekt fertigzustellen.
+Abschließend kann man sagen, dass das Projekt "Vier gewinnt" eine ziemliche Herausforderung war, da wir keine richtige Aufgabenstellung vom Lehrer erhalten haben und wir uns am Protokoll des Schülers orientieren mussten. Auch gab es Missverständnisse und wurden zu philosophischen Gedankengänge verleitet, weil wir manchmal nicht genau wussten, warum eine Methode genau genutzt werden sollte und manche dieser Methoden uns überflüssig erschienen sind. Jedoch ist uns beim Nachfragen des Lehrers und der Definitionserklärung der Methoden von den Schülern uns gelungen, das Projekt fertigzustellen.
