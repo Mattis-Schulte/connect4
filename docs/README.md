@@ -12,7 +12,8 @@ Am Anfang hat der Lehrer das "Vier Gewinnt"-Spiel erklärt. Dabei hatte ein Sch�
 - Computer mit Windows 10 (Version 21H1) / macOS Big Sur 11.6 (20G165) 
 - [PyCharm 2021.2.3](https://www.jetbrains.com/pycharm/) (Professional Edition)
 - Python 3.9 
-- [Replit](https://replit.com/) (Webseite mit einer Online-IDE, Editor, Compiler und Interpreter) 
+- [Replit](https://replit.com/) (Webseite mit einer Online-IDE, Editor, Compiler und Interpreter)
+- Das Protokoll des Schülers
 
 ## Spielregeln
 Die Spielregeln von "Vier Gewinnt", sind sehr einfach erklärt. Der Spieler kann gewinnen, indem er mit seinen zugehörigen Spielsteinen abwechselnd eine Reihe mit mindestens 4 Spielsteinen legt. Er kann diese Reihe vertikal, horizontal oder diagonal verlegen. Das Einzige, was man beachten muss, ist, dass diese vierer Reihe nicht durch einen gegnerischen Spielstein belegt wird. So kann man das Spiel spielen, bis man selbst gewonnen hat, der Gegner gewonnen hat oder bis das Spielbrett voll ist.
