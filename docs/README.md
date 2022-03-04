@@ -1,11 +1,11 @@
 **Vier Gewinnt – Mattis Schulte, Sajan Sivapatham | [GitHub](https://github.com/Mattis-Schulte/connect4/)**
 
 ## Aufgabenstellung
-Am Anfang hat der Lehrer das Vier Gewinnt-Spiel erklärt. Dabei hatte ein Schüler ein Protokoll angefertigt wo alle nötigen Methoden und deren Erklärungen festgehalten wurde. Als das Protokoll fertigestellt wurde haben die Schüler die noch leeren Methoden übernommen die man für das Spiel benötigt. Die Schüler hatten dann nur die notwedigen leeren Methoden und die dazugehörigen Erklärungen parat um das Spiel zu entwickeln.
+Am Anfang hat der Lehrer das "Vier Gewinnt"-Spiel erklärt. Dabei hatte ein Schüler ein Protokoll angefertigt, wo alle benötigten Methoden und deren Erklärungen festgehalten wurden. Als das Protokoll fertiggestellt wurde, haben die Schüler die noch leeren Methoden übernommen, die man für das Spiel benötigt. Die Schüler hatten dann nur die notwendigen leeren Methoden und die dazugehörigen Erklärungen parat, um das Spiel zu entwickeln.
 
 - Die vorgegebenen leeren Methoden des Lehrers mussten benutzt werden.
 - Unten Links muss der Startpunkt sein (x=0/y=0)(wie im Koordinatensystem).
-- EXTRA: Als extra kann man neben der Auswahl zum Zweispielermodus auch ein KI-Modus einbauen sodass man allein gegen ein Computerspieler spielt.
+- EXTRA: Als extra kann man neben der Auswahl zum Zweispielermodus auch ein KI-Modus einbauen, sodass man allein gegen ein Computerspieler spielt.
 
 
 ## Liste der verwendeten Ausstattung 
@@ -15,10 +15,11 @@ Am Anfang hat der Lehrer das Vier Gewinnt-Spiel erklärt. Dabei hatte ein Schül
 - [Replit](https://replit.com/) (Webseite mit einer Online-IDE, Editor, Compiler und Interpreter) 
 
 ## Spielregeln
-Die Spielregeln von Vier gewinnt, sind sehr einfach erklärt. Der Spieler kann gewinnen, indem er mit seinen zugehörigen Spielsteinen abwechselnd eine Reihe mit mindestens 4 Spielsteinen legt. Er kann diese Reihe vertikal, horizontal oder diagonal verlegen. Das Einzige, was man beachten muss, ist, dass diese vierer Reihe nicht durch ein gegnerischen Spielstein belegt wird. So kann man das Spiel spielen, bis man selbst gewonnen hat, der Gegner gewonnen hat oder bis das Spielbrett voll ist.
+Die Spielregeln von "Vier Gewinnt", sind sehr einfach erklärt. Der Spieler kann gewinnen, indem er mit seinen zugehörigen Spielsteinen abwechselnd eine Reihe mit mindestens 4 Spielsteinen legt. Er kann diese Reihe vertikal, horizontal oder diagonal verlegen. Das Einzige, was man beachten muss, ist, dass diese vierer Reihe nicht durch einen gegnerischen Spielstein belegt wird. So kann man das Spiel spielen, bis man selbst gewonnen hat, der Gegner gewonnen hat oder bis das Spielbrett voll ist.
+
 ## Programm
 ### Benutzeranleitung:
-Wenn man das Spiel gestartet hat kommt man in das Spielmenü wo der Benutzer auswählen kann im welchen Spielmodus er spielen will:
+Wenn man das Spiel gestartet hat, kommt man in das Spielmenü, wo der Benutzer auswählen kann, in welchen Spielmodus er spielen will:
 ````
 
               ██╗   ██╗██╗███████╗██████╗   
@@ -53,7 +54,7 @@ Bitte geben Sie ihren Benutzernamen ein!
 ````
 Nachdem der Benutzer seinen Benutzernamen eingegeben hat, wird man zur Farbauswahl gebeten:
 ````
-Bitte wählen Sie ihre Farbe (Rot, Grün oder Gelb)!
+Bitte wählen Sie ihre Farbe (Rot, Grün, Gelb oder Blau)!
 >> 
 ````
 Der Benutzer muss dann seine gewünschte Spielsteinfarbe eingeben.
@@ -180,7 +181,7 @@ Spieler 1:
 Bitte geben Sie ihren Benutzernamen ein!
 >>
 ````
-Auch hier wird abgefragt welche Farbe der Spieler möchte.
+Auch hier wird abgefragt, welche Farbe der Spieler möchte.
 
 ````
 Spieler 1:
@@ -190,7 +191,101 @@ Bitte wählen Sie ihre Farbe (Rot, Grün, Gelb oder Blau)!
 
 #### Beim zweiten Spieler sind die Abfragen identisch außer bei der Wahl der Farbe. Denn die Farbe, die der erste Spieler gewählt hat, wird dann dem zweiten Spieler nicht mehr zur Verfügung stehen.
 
-Nachdem beide Spieler ihren Benutzernamen und Farben ausgewählt haben, wird das Spiel gestartet und das SPielbrett erscheint.
+Nachdem beide Spieler ihren Benutzernamen und Farben ausgewählt haben, wird das Spiel gestartet und das Spielbrett erscheint.
+
+````
+VIER GEWINNT
+
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+    A      B      C      D      E      F      G  
+
+Spieler 1 (Rot) ist am Zug >> 
+````
+Danach werden abwechselnd zwischen den zwei Spielern die Spielsteine eingeworfen, bis jemand gewonnen hat oder das Spiel unterschieden verläuft bzw. das Spielbrett voll ist.
+
+##### Der Spieler 1 hat gewonnen:
+
+````
+VIER GEWINNT
+
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|  🔴  |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|  🔴  |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|  🔴  |      |      |      |      |      |  🟡  |
++------+------+------+------+------+------+------+
+|  🔴  |      |      |      |      |  🟡  |  🟡  |
++------+------+------+------+------+------+------+
+    A      B      C      D      E      F      G  
+
+Spieler 1 (Rot) hat mit folgenden Steinen gewonnen: (0|0) (0|1) (0|2) (0|3) 
+````
+
+##### Der Spieler 2 hat gewonnen:
+
+````
+VIER GEWINNT
+
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|      |      |      |      |      |      |      |
++------+------+------+------+------+------+------+
+|  🔴  |  🔴  |      |     |      |      |      |
++------+------+------+------+------+------+------+
+|  🔴  |  🔴  |      | 🟡  |  🟡  |  🟡  |  🟡 |
++------+------+------+------+------+------+------+
+    A      B      C      D      E      F      G  
+
+Spieler 2 (Gelb) hat mit folgenden Steinen gewonnen: (3|0) (4|0) (5|0) (6|0)
+````
+
+##### Unentschieden bzw. das Spielbrett ist voll:
+
+
+````
+VIER GEWINNT
+
++------+------+------+------+------+------+------+
+|  🟡  |  🟡  |  🟡  |  🔴  |  🟡  |  🟡  |  🟡  |
++------+------+------+------+------+------+------+
+|  🔴  |  🔴  |  🔴  |  🟡  |  🔴  |  🔴  |  🔴  |
++------+------+------+------+------+------+------+
+|  🟡  |  🟡  |  🟡  |  🔴  |  🟡  |  🟡  |  🟡  |
++------+------+------+------+------+------+------+
+|  🔴  |  🔴  |  🔴  |  🟡  |  🔴  |  🔴  |  🔴  |
++------+------+------+------+------+------+------+
+|  🟡  |  🟡  |  🟡  |  🔴  |  🟡  |  🟡  |  🟡  |
++------+------+------+------+------+------+------+
+|  🔴  |  🔴  |  🔴  |  🟡  |  🔴  |  🔴  |  🔴  |
++------+------+------+------+------+------+------+
+    A      B      C      D      E      F      G  
+
+Das Spiel ist unentschieden!
+````
+
+
 
 ### Programmteile erklärt:
 #### Hauptteil (main.py)
@@ -219,7 +314,7 @@ while True:
     except WrongColError:
         print('Fehlerhafte Auswahl!')
 ````
-In diesem Teil des Codes wird der Benutzer nach seinem Namen und seiner Farbe gefragt, falls der Benutzer kein Namen angegeben hat, wird der Standardname also hier z. B. Spieler 1 gewählt. Außerdem kann der Benutzer nur zwischen den erlaubten Farben `valid_colors` wählen, wenn er eine korrekte Farbe ausgewählt hat, wird dann eine Spieler-Instanz für den Benutzer und eine für die KI erstellt – der Name der KI lautet "Primitive KI" und die Farbe der KI wird zufällig gewählt. Aufgrund dessen entfernen wir auch vorher die vom Benutzer gewählte Farbe aus der Liste der erlaubten Farben, damit die KI nicht dieselbe Farbe wählen kann. Außerdem erstellen wir hier auch schon die Instanz für das eigentliche Spiel, der wir das Board und den Spielmodus (1 oder 2) übergeben: `Game = ConnectFourGame(Board, 1)`
+In diesem Teil des Codes wird der Benutzer nach seinem Namen und seiner Farbe gefragt, falls der Benutzer keinen Namen angegeben hat, wird der Standardname also hier z. B. Spieler 1 gewählt. Außerdem kann der Benutzer nur zwischen den erlaubten Farben `valid_colors` wählen, wenn er eine korrekte Farbe ausgewählt hat, wird dann eine Spieler-Instanz für den Benutzer und eine für die KI erstellt – der Name der KI lautet "Primitive KI" und die Farbe der KI wird zufällig gewählt. Aufgrund dessen entfernen wir auch vorher die vom Benutzer gewählte Farbe aus der Liste der erlaubten Farben, damit die KI nicht dieselbe Farbe wählen kann. Außerdem erstellen wir hier auch schon die Instanz für das eigentliche Spiel, der wir das Board und den Spielmodus (1 oder 2) übergeben: `Game = ConnectFourGame(Board, 1)`
 
 ````python
 # Running the actual game
@@ -309,7 +404,7 @@ def play(self, p1, p2):
         # AI's turn
        self.set_ai()
 ````
-Dies ist die Spiele Methode, in dieser werden die eigentliche Spielzuge durchgeführt oder die KI aufgerufen. Zudem werden hier auch Fehler wie eine fehlerhafte Eingabe der Spalte oder die Eingabe einer vollen Spalte behandelt und eine Fehlermeldung für den Benutzer ausgegeben.
+Dies ist die Spiele Methode, in dieser werden die eigentlichen Spielzüge durchgeführt oder die KI aufgerufen. Zudem werden hier auch Fehler wie eine fehlerhafte Eingabe der Spalte oder die Eingabe einer vollen Spalte behandelt und eine Fehlermeldung für den Benutzer ausgegeben.
 
 
 ## Fazit
