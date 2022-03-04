@@ -59,9 +59,9 @@ class ConnectFourBoard:
             for column in range(self.X_MAX):
                 if self.field[column][row] == 0:
                     print('|    ', end='  ')
-                elif self.field[column][row] == 1:
+                elif self.field[column][row] == self.PLAYER1:
                     print(f'|  {translated_colors[p1.color]}', end='  ')
-                elif self.field[column][row] == 2:
+                elif self.field[column][row] == self.PLAYER2:
                     print(f'|  {translated_colors[p2.color]}', end='  ')
             print('|\n' + sep)
 
