@@ -13,7 +13,7 @@ else:
 
 
 class ConnectFourBoard:
-    """Board to play ConnectFour. Pos(x,y) | pos(0,0) lower left hand corner | xmax = 7 ymax = 6"""
+    """ Board to play ConnectFour. Pos(x,y) | pos(0,0) lower left-hand corner | xmax = 7 ymax = 6 """
     EMPTY = 0
     PLAYER1 = 1
     PLAYER2 = 2
@@ -80,13 +80,13 @@ class ConnectFourBoard:
             return False
 
     def is_col_full(self, x_pos) -> bool:
-        """tell if column is fully occupied"""
+        """ Tell if column is fully occupied """
         if self.EMPTY in self.field[x_pos]:
             return False
         else:
             return True
     
-    def is_winning(self, winning_positions_list) -> bool:
+    def is_winning(self) -> bool:
         """ Tell if winning was achieved by a player """
         if self.get_winning_positions(self.field):
             return True

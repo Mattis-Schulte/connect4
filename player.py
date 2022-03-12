@@ -3,7 +3,7 @@
 
 class Player:
     def __init__(self, name, color):
-        """Create a player with name and color from Color class"""
+        """ Create a player with name and color from color class """
         self.name = name
         self.color = color
         self.winnings = 0

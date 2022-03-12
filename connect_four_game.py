@@ -7,6 +7,7 @@ from random import choice, sample
 from exceptions.ColumnFullError import ColumnFullError
 from exceptions.AIModeError import AIModeError
 
+
 class ConnectFourGame:
     """ The actual Game. Gives each player its turn or gets into automatic mode """
     AI = 1

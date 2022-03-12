@@ -70,7 +70,7 @@ if __name__ == "__main__":
                     if usr_input.upper() in dict((v.upper(), k) for k, v in color_helper.items()):
                         usr_input = dict((v.upper(), k) for k, v in color_helper.items())[usr_input.upper()]
                         if usr_input not in valid_colors.colors:
-                           raise WrongColError('Doublicated color!') 
+                            raise WrongColError('Duplicated color!')
                     else:
                         raise WrongColError('Invalid color!')
                         
@@ -104,7 +104,7 @@ if __name__ == "__main__":
                         if usr_input.upper() in dict((v.upper(), k) for k, v in color_helper.items()):
                             usr_input = dict((v.upper(), k) for k, v in color_helper.items())[usr_input.upper()]
                             if usr_input not in valid_colors.colors:
-                               raise WrongColError('Doublicated color!') 
+                                raise WrongColError('Duplicated color!')
                         else:
                             raise WrongColError('Invalid color!')
                         

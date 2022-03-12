@@ -3,6 +3,7 @@
 
 from exceptions.ConnectFourError import ConnectFourError
 
+
 class BoardFullError(ConnectFourError):
     """ Indicates that the board is completely filled with tokens """
     def __init__(self, message):
