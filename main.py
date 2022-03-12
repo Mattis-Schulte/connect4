@@ -110,12 +110,12 @@ if __name__ == "__main__":
                         
                         exec('p' + str(i) + ' = ' + 'Player("' + usr_name + '", "' + usr_input + '")')
                         valid_colors.colors.remove(usr_input)
-                        Game = ConnectFourGame(p1, p2, Board, 2)
                         break
                     except WrongColError:
                         print('Fehlerhafte Auswahl!')
                         usr_input = input('>> ')
-
+            Game = ConnectFourGame(p1, p2, Board, 2)
+    
     # Running the actual game
     while not (Board.is_board_full()) and not (Board.get_winning_positions(Board.field)):
         Game.play()
