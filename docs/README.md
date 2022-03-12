@@ -9,9 +9,9 @@ Am Anfang hat der Lehrer das "Vier Gewinnt"-Spiel erklärt. Dabei hatte ein Sch�
 
 
 ## Liste der verwendeten Ausstattung 
-- Computer mit Windows 10 (Version 21H1) / macOS Big Sur 11.6 (20G165) 
-- [PyCharm 2021.2.3](https://www.jetbrains.com/pycharm/) (Professional Edition)
-- Python 3.9 
+- Computer mit Windows 10 (21H2) / macOS Monterey 12.2.1 (21D62)
+- [PyCharm 2021.3.2](https://www.jetbrains.com/pycharm/) (Professional Edition)
+- Python 3.10
 - [Replit](https://replit.com/) (Webseite mit einer Online-IDE, Editor, Compiler und Interpreter)
 - Das Protokoll des Schülers
 
@@ -306,26 +306,32 @@ while True:
     try:
         if usr_input.upper() in dict((v.upper(), k) for k, v in color_helper.items()):
             usr_input = dict((v.upper(), k) for k, v in color_helper.items())[usr_input.upper()]
-
-        p1 = Player(usr_name, valid_colors, usr_input)
+            if usr_input not in valid_colors.colors:
+                raise WrongColError('Duplicated color!')
+        else:
+            raise WrongColError('Invalid color!')
+          
+        p1 = Player(usr_name, usr_input)
         valid_colors.colors.remove(usr_input)
-        p2 = Player('Primitive KI', valid_colors, choice(valid_colors.colors))
-        Game = ConnectFourGame(Board, 1)
+        p2 = Player('Primitive KI', choice(valid_colors.colors))
+        Game = ConnectFourGame(p1, p2, Board, 1)
         break
     except WrongColError:
         print('Fehlerhafte Auswahl!')
+        usr_input = input('>> ')
 ````
-In diesem Teil des Codes wird der Benutzer nach seinem Namen und seiner Farbe gefragt, falls der Benutzer keinen Namen angegeben hat, wird der Standardname also hier z. B. Spieler 1 gewählt. Außerdem kann der Benutzer nur zwischen den erlaubten Farben `valid_colors` wählen, wenn er eine korrekte Farbe ausgewählt hat, wird dann eine Spieler-Instanz für den Benutzer und eine für die KI erstellt – der Name der KI lautet "Primitive KI" und die Farbe der KI wird zufällig gewählt. Aufgrund dessen entfernen wir auch vorher die vom Benutzer gewählte Farbe aus der Liste der erlaubten Farben, damit die KI nicht dieselbe Farbe wählen kann. Außerdem erstellen wir hier auch schon die Instanz für das eigentliche Spiel, der wir das Board und den Spielmodus (1 oder 2) übergeben: `Game = ConnectFourGame(Board, 1)`
+In diesem Teil des Codes wird der Benutzer nach seinem Namen und seiner Farbe gefragt, falls der Benutzer keinen Namen angegeben hat, wird der Standardname also hier z. B. Spieler 1 gewählt. Außerdem kann der Benutzer nur zwischen den erlaubten Farben `valid_colors` wählen, wenn er eine korrekte Farbe ausgewählt hat, wird dann eine Spieler-Instanz für den Benutzer und eine für die KI erstellt – der Name der KI lautet "Primitive KI" und die Farbe der KI wird zufällig gewählt. Aufgrund dessen entfernen wir auch vorher die vom Benutzer gewählte Farbe aus der Liste der erlaubten Farben, damit die KI nicht dieselbe Farbe wählen kann. Außerdem erstellen wir hier auch schon die Instanz für das eigentliche Spiel, der wir die beiden Spieler-Instanzen, das Board und den Spielmodus (1 oder 2) übergeben: `Game = ConnectFourGame(p1, p2, Board, 2)`
 
 ````python
 # Running the actual game
 while not (Board.is_board_full()) and not (Board.get_winning_positions(Board.field)):
-    Game.play(p1, p2)
+    Game.play()
 else:
-    Board.print_board(p1, p2)
+    Board.print_board(p1.color, p2.color)
     if Board.get_winning_positions(Board.field):
-        exec('winner_name = p' + str(Board.is_winning(Board.get_winning_positions(Board.field))) + '.name')
-        exec('winner_color = p' + str(Board.is_winning(Board.get_winning_positions(Board.field))) + '.color')
+        winner_token_owner = Board.get_token(Board.get_winning_positions(Board.field)[0][0], Board.get_winning_positions(Board.field)[0][1])
+        exec('winner_name = p' + str(winner_token_owner) + '.name')
+        exec('winner_color = p' + str(winner_token_owner) + '.color')
         winner_color = color_helper[winner_color]
         print(f'{winner_name} ({winner_color}) hat mit folgenden Steinen gewonnen: ', end='')
         [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions(Board.field)]
@@ -335,7 +341,7 @@ else:
 ````
 In diesem Abschnitt wird, solange bis das Spielbrett voll ist oder jemand gewonnen hat, das eigentliche Spiel laufen gelassen. Dafür rufen wir die Methode `play` der `Game` Instanz auf und übergeben dieser die Instanzen der beiden Spieler. Zudem geben wir in diesem Teil auch falls jemand gewonnen hat, den Namen des Gewinners, seine Farbe und die Steine aus, mit denen er gewonnen hat. Falls das Spiel unentschieden ist, wird das ebenfalls hier ausgegeben.
 
-#### Die Spiele-Klasse (game.py)
+#### Die Spiele-Klasse (connect_four_game.py)
 In dieser Klasse findet das eigentliche Spiel statt, so werden in dieser Klasse die Spielzüge durchgeführt, bestimmt wer am Zug ist und der Algorithmus der KI ist ebenfalls in dieser Klasse.
 ````python
 def set_ai(self):
@@ -353,7 +359,7 @@ def set_ai(self):
                 test_board[column][self.board.field[column].index(0)] = 1
 
             if self.board.get_winning_positions(test_board):
-                self.board.set_token(self.identifier[column], 2)
+                self.board.set_token(column, 2)
                 self.active_player = 1
                 return
         
@@ -364,28 +370,28 @@ def set_ai(self):
         if 0 in test_board[random_column]:
             test_board[random_column][self.board.field[random_column].index(0) + 1] = 1
             if not self.board.get_winning_positions(test_board):
-                self.board.set_token(self.identifier[random_column], 2)
+                self.board.set_token(random_column, 2)
                 self.active_player = 1
                 return
         else:
-            self.board.set_token(self.identifier[random_column], 2)
+            self.board.set_token(random_column, 2)
             self.active_player = 1
             return
 
     # Choose random column
-    self.board.set_token(self.identifier[choice(valid_columns)], 2)
+    self.board.set_token(choice(valid_columns), 2)
     self.active_player = 1
 ````
 Dies ist die Methode des KI-Algorithmus, als Erstes werden alle möglichen Spalten ermittelt. Im ersten Abschnitt prüft die KI dann mit der Methode `get_winning_positions` der "Board-Klasse" ob es eine Spalte gibt, die die KI nutzen könnte, um zu gewinnen oder den Nutzer zumindest am Gewinnen zu hindern (dabei, wird der Sieg natürlich bevorzugt). Gibt es keine Spalte, in der dies der Fall ist, wird eine zufällige Spalte ausgewählt. Es wird vorher allerdings noch geprüft, ob der Zug vorteilhaft für den Gegner ist, also ob man durch seinen Zug den Gegner es ermöglicht vier nebeneinander zulegen (dafür ist der zweite Abschnitt da), falls dies nicht der Fall ist oder es keine andere Möglichkeit gibt, legt die KI.
 ````python
-def play(self, p1, p2):
+def play(self):
     color_helper = {'RED': 'Rot', 'GREEN': 'Grün', 'YELLOW': 'Gelb', 'BLUE': 'Blau'}
-    self.board.print_board(p1, p2)
+    self.board.print_board(self.p1.color, self.p2.color)
     if self.active_player == 1:
         # Player one's turn
         while True:
             try:
-                self.set_player1(input(f'{p1.name} ({color_helper[p1.color]}) ist am Zug >> '))
+                self.set_player1(input(f'{self.p1.name} ({color_helper[self.p1.color]}) ist am Zug >> '))
                 break
             except(ValueError, IndexError):
                 print('Fehlerhafte Auswahl!')
@@ -395,7 +401,7 @@ def play(self, p1, p2):
         # Player two's turn
         while True:
             try:
-                self.set_player2(input(f'{p2.name} ({color_helper[p2.color]}) ist am Zug >> '))
+                self.set_player2(input(f'{self.p2.name} ({color_helper[self.p2.color]}) ist am Zug >> '))
                 break
             except(ValueError, IndexError):
                 print('Fehlerhafte Auswahl!')
