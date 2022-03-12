@@ -77,7 +77,7 @@ if __name__ == "__main__":
                     p1 = Player(usr_name, usr_input)
                     valid_colors.colors.remove(usr_input)
                     p2 = Player('Primitive KI', choice(valid_colors.colors))
-                    Game = ConnectFourGame(Board, 1)
+                    Game = ConnectFourGame(p1, p2, Board, 1)
                     break
                 except WrongColError:
                     print('Fehlerhafte Auswahl!')
@@ -110,7 +110,7 @@ if __name__ == "__main__":
                         
                         exec('p' + str(i) + ' = ' + 'Player("' + usr_name + '", "' + usr_input + '")')
                         valid_colors.colors.remove(usr_input)
-                        Game = ConnectFourGame(Board, 2)
+                        Game = ConnectFourGame(p1, p2, Board, 2)
                         break
                     except WrongColError:
                         print('Fehlerhafte Auswahl!')
@@ -118,9 +118,9 @@ if __name__ == "__main__":
 
     # Running the actual game
     while not (Board.is_board_full()) and not (Board.get_winning_positions(Board.field)):
-        Game.play(p1, p2)
+        Game.play()
     else:
-        Board.print_board(p1, p2)
+        Board.print_board(p1.color, p2.color)
         if Board.get_winning_positions(Board.field):
             winner_token_owner = Board.get_token(Board.get_winning_positions(Board.field)[0][0], Board.get_winning_positions(Board.field)[0][1])
             exec('winner_name = p' + str(winner_token_owner) + '.name')

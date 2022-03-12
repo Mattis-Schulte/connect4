@@ -15,8 +15,10 @@ class ConnectFourGame:
 
     identifier = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-    def __init__(self, board, mode):
+    def __init__(self, player1, player2, board, mode=2):
         self.board = board
+        self.p1 = player1
+        self.p2 = player2
         self.game = mode
         self.active_player = 1
         # Init the board
@@ -77,14 +79,14 @@ class ConnectFourGame:
         self.board.set_token(choice(valid_columns), 2)
         self.active_player = 1
 
-    def play(self, p1, p2):
+    def play(self):
         color_helper = {'RED': 'Rot', 'GREEN': 'Grün', 'YELLOW': 'Gelb', 'BLUE': 'Blau'}
-        self.board.print_board(p1, p2)
+        self.board.print_board(self.p1.color, self.p2.color)
         if self.active_player == 1:
             # Player one's turn
             while True:
                 try:
-                    self.set_player1(input(f'{p1.name} ({color_helper[p1.color]}) ist am Zug >> '))
+                    self.set_player1(input(f'{self.p1.name} ({color_helper[self.p1.color]}) ist am Zug >> '))
                     break
                 except(ValueError, IndexError):
                     print('Fehlerhafte Auswahl!')
@@ -94,7 +96,7 @@ class ConnectFourGame:
             # Player two's turn
             while True:
                 try:
-                    self.set_player2(input(f'{p2.name} ({color_helper[p2.color]}) ist am Zug >> '))
+                    self.set_player2(input(f'{self.p2.name} ({color_helper[self.p2.color]}) ist am Zug >> '))
                     break
                 except(ValueError, IndexError):
                     print('Fehlerhafte Auswahl!')

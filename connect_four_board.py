@@ -29,7 +29,7 @@ class ConnectFourBoard:
         """ Write zeros into every field """
         self.field = [[0 for _ in range(self.Y_MAX)] for _ in range(self.X_MAX)]
 
-    def print_board(self, p1, p2):
+    def print_board(self, p1_color='RED', p2_color='YELLOW'):
         """ Show the board in a console grid """
         exec(clear_cmd)
         print('\nVIER GEWINNT\n')
@@ -46,9 +46,9 @@ class ConnectFourBoard:
                 if self.field[column][row] == self.EMPTY:
                     print('|    ', end='  ')
                 elif self.field[column][row] == self.PLAYER1:
-                    print(f'|  {translated_colors[p1.color]}', end='  ')
+                    print(f'|  {translated_colors[p1_color]}', end='  ')
                 elif self.field[column][row] == self.PLAYER2:
-                    print(f'|  {translated_colors[p2.color]}', end='  ')
+                    print(f'|  {translated_colors[p2_color]}', end='  ')
             print('|\n' + sep)
 
         # Print identifiers
