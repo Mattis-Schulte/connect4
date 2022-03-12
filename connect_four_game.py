@@ -4,8 +4,8 @@
 from copy import deepcopy
 from random import choice, sample
 
-from assets.errors import ColumnFullError, AIModeError
-
+from exceptions.ColumnFullError import ColumnFullError
+from exceptions.AIModeError import AIModeError
 
 class ConnectFourGame:
     """ The actual Game. Gives each player its turn or gets into automatic mode """
@@ -22,12 +22,18 @@ class ConnectFourGame:
         board.reset_board()
 
     def set_player1(self, column):
-        self.board.set_token(column.upper(), 1)
-        self.active_player = 2
+        if column.upper() not in self.identifier:
+            raise ValueError()
+        else:
+            self.board.set_token(self.identifier.index(column.upper()), 1)
+            self.active_player = 2
 
     def set_player2(self, column):
-        self.board.set_token(column.upper(), 2)
-        self.active_player = 1
+        if column.upper() not in self.identifier:
+            raise ValueError()
+        else:
+            self.board.set_token(self.identifier.index(column.upper()), 2)
+            self.active_player = 1
 
         if self.game == self.AI:
             raise AIModeError('Game is in automatic mode!')
@@ -47,7 +53,7 @@ class ConnectFourGame:
                     test_board[column][self.board.field[column].index(0)] = 1
 
                 if self.board.get_winning_positions(test_board):
-                    self.board.set_token(self.identifier[column], 2)
+                    self.board.set_token(column, 2)
                     self.active_player = 1
                     return
         
@@ -58,16 +64,16 @@ class ConnectFourGame:
             if 0 in test_board[random_column]:
                 test_board[random_column][self.board.field[random_column].index(0) + 1] = 1
                 if not self.board.get_winning_positions(test_board):
-                    self.board.set_token(self.identifier[random_column], 2)
+                    self.board.set_token(random_column, 2)
                     self.active_player = 1
                     return
             else:
-                self.board.set_token(self.identifier[random_column], 2)
+                self.board.set_token(random_column, 2)
                 self.active_player = 1
                 return
 
         # Choose random column
-        self.board.set_token(self.identifier[choice(valid_columns)], 2)
+        self.board.set_token(choice(valid_columns), 2)
         self.active_player = 1
 
     def play(self, p1, p2):

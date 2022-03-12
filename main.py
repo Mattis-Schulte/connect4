@@ -10,11 +10,11 @@
 from os import system, name
 from random import choice
 
-from assets.gameboard import ConnectFourBoard
-from assets.color import Color
-from assets.errors import WrongColError
-from assets.game import ConnectFourGame
-from assets.player import Player
+from connect_four_board import ConnectFourBoard
+from color import Color
+from exceptions.WrongColError import WrongColError
+from connect_four_game import ConnectFourGame
+from player import Player
 
 if name == 'nt':
     clear_cmd = 'system("cls")'
@@ -69,10 +69,14 @@ if __name__ == "__main__":
                 try:
                     if usr_input.upper() in dict((v.upper(), k) for k, v in color_helper.items()):
                         usr_input = dict((v.upper(), k) for k, v in color_helper.items())[usr_input.upper()]
-
-                    p1 = Player(usr_name, valid_colors, usr_input)
+                        if usr_input not in valid_colors.colors:
+                           raise WrongColError('Doublicated color!') 
+                    else:
+                        raise WrongColError('Invalid color!')
+                        
+                    p1 = Player(usr_name, usr_input)
                     valid_colors.colors.remove(usr_input)
-                    p2 = Player('Primitive KI', valid_colors, choice(valid_colors.colors))
+                    p2 = Player('Primitive KI', choice(valid_colors.colors))
                     Game = ConnectFourGame(Board, 1)
                     break
                 except WrongColError:
@@ -99,8 +103,12 @@ if __name__ == "__main__":
                     try:
                         if usr_input.upper() in dict((v.upper(), k) for k, v in color_helper.items()):
                             usr_input = dict((v.upper(), k) for k, v in color_helper.items())[usr_input.upper()]
-
-                        exec('p' + str(i) + ' = ' + 'Player("' + usr_name + '", valid_colors, "' + usr_input + '")')
+                            if usr_input not in valid_colors.colors:
+                               raise WrongColError('Doublicated color!') 
+                        else:
+                            raise WrongColError('Invalid color!')
+                        
+                        exec('p' + str(i) + ' = ' + 'Player("' + usr_name + '", "' + usr_input + '")')
                         valid_colors.colors.remove(usr_input)
                         Game = ConnectFourGame(Board, 2)
                         break
@@ -114,8 +122,9 @@ if __name__ == "__main__":
     else:
         Board.print_board(p1, p2)
         if Board.get_winning_positions(Board.field):
-            exec('winner_name = p' + str(Board.is_winning(Board.get_winning_positions(Board.field))) + '.name')
-            exec('winner_color = p' + str(Board.is_winning(Board.get_winning_positions(Board.field))) + '.color')
+            winner_token_owner = Board.get_token(Board.get_winning_positions(Board.field)[0][0], Board.get_winning_positions(Board.field)[0][1])
+            exec('winner_name = p' + str(winner_token_owner) + '.name')
+            exec('winner_color = p' + str(winner_token_owner) + '.color')
             winner_color = color_helper[winner_color]
             print(f'{winner_name} ({winner_color}) hat mit folgenden Steinen gewonnen: ', end='')
             [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions(Board.field)]
