@@ -93,7 +93,10 @@ class ConnectFourBoard:
         else:
             return False
 
-    def get_winning_positions(self, board):
+    def get_winning_positions(self, board=None):
+        if board is None:
+            board = self.field
+        
         """ Check, if there is a win-situation and return the position """
         # Check horizontally
         for column in range(self.X_MAX - 3):
