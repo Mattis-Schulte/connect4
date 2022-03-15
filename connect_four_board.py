@@ -23,7 +23,7 @@ class ConnectFourBoard:
     identifier = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
     def __init__(self):
-        self.field = None
+        self.reset_board()
 
     def reset_board(self):
         """ Write zeros into every field """
