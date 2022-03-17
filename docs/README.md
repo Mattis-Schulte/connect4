@@ -413,6 +413,9 @@ def play(self):
 ````
 Dies ist die Spiele Methode, in dieser werden die eigentlichen Spielzüge durchgeführt oder die KI aufgerufen. Zudem werden hier auch Fehler wie eine fehlerhafte Eingabe der Spalte oder die Eingabe einer vollen Spalte behandelt und eine Fehlermeldung für den Benutzer ausgegeben.
 
+#### Die Spielfeld-Klasse (connect_four_board.py)
+Dies ist die Klasse für das Spielfeld, sie enthält Methoden zum Setzten und Auslesen von Spielsteinen, zum Ausgeben des Spielfelds, zum zurücksetzten des Spielfelds und zum überprüfen 
+In dieser Klasse findet das eigentliche Spiel statt, so werden in dieser Klasse die Spielzüge durchgeführt, bestimmt wer am Zug ist und der Algorithmus der KI ist ebenfalls in dieser Klasse.
 
 ## Fazit
 Abschließend kann man sagen, dass das Projekt "Vier gewinnt" eine ziemliche Herausforderung war, da wir keine richtige Aufgabenstellung vom Lehrer erhalten haben und wir uns am Protokoll des Schülers orientieren mussten. Auch gab es Missverständnisse und wurden zu philosophischen Gedankengänge verleitet, weil wir manchmal nicht genau wussten, warum eine Methode genau genutzt werden sollte und manche dieser Methoden uns überflüssig erschienen sind. Jedoch ist uns beim Nachfragen des Lehrers und der Definitionserklärung der Methoden von den Schülern uns gelungen, das Projekt fertigzustellen.
