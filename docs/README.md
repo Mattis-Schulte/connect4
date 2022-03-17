@@ -5,7 +5,7 @@ Am Anfang hat der Lehrer das "Vier Gewinnt"-Spiel erklärt. Dabei hatte ein Sch�
 
 - Die vorgegebenen leeren Methoden des Lehrers mussten benutzt werden.
 - Unten Links muss der Startpunkt sein (x=0/y=0)(wie im Koordinatensystem).
-- EXTRA: Als extra kann man neben der Auswahl zum Zweispielermodus auch ein KI-Modus einbauen, sodass man allein gegen ein Computerspieler spielt.
+- EXTRA: Als extra kann man neben der Auswahl zum Zweispielermodus auch ein KI-Modus einbauen, sodass man alleine gegen einen Computerspieler spielen kann.
 
 
 ## Liste der verwendeten Ausstattung 
@@ -48,7 +48,7 @@ Dabei hat er die Auswahl zwischen einem primitiven Computergegner oder er kann d
 
 
 #### (1) Einzelspieler (KI-Modus)
-Wenn der Benutzer den Einzelspielermodus (also gegen denn Computergegner) wählt, muss der Benutzer seinen Benutzernamen eingeben:
+Wenn der Benutzer den Einzelspielermodus (also gegen den Computergegner) wählt, muss der Benutzer seinen Benutzernamen eingeben:
 ````
 Bitte geben Sie ihren Benutzernamen ein!
 >>
@@ -59,7 +59,7 @@ Bitte wählen Sie ihre Farbe (Rot, Grün, Gelb oder Blau)!
 >> 
 ````
 Der Benutzer muss dann seine gewünschte Spielsteinfarbe eingeben.
-Nachdem der Spieler eine Farbe ausgewählt hat, wird er zum Spielfeld weitergeleitet, wo der Benutzer denn ersten Spielstein setzen darf. Dabei darf er nur die Spalte auswählen (A-G), wo er denn Spielstein einwerfen möchte.
+Nachdem der Spieler eine Farbe ausgewählt hat, wird er zum Spielfeld weitergeleitet, wo der Benutzer denn ersten Spielstein setzen darf. Dabei darf er nur die Spalte auswählen (A-G), wo er denn Spielstein einwerfen möchte:
 
 ````
 VIER GEWINNT
@@ -190,7 +190,7 @@ Bitte wählen Sie ihre Farbe (Rot, Grün, Gelb oder Blau)!
 >> 
 ````
 
-#### Beim zweiten Spieler sind die Abfragen identisch außer bei der Wahl der Farbe. Denn die Farbe, die der erste Spieler gewählt hat, wird dann dem zweiten Spieler nicht mehr zur Verfügung stehen.
+#### Beim zweiten Spieler sind die Abfragen identisch, außer bei der Wahl der Farbe. Denn die Farbe, die der erste Spieler gewählt hat, wird dann dem zweiten Spieler nicht mehr zur Verfügung stehen.
 
 Nachdem beide Spieler ihren Benutzernamen und Farben ausgewählt haben, wird das Spiel gestartet und das Spielbrett erscheint.
 
@@ -339,10 +339,10 @@ else:
     elif Board.is_board_full():
         print('Das Spiel ist unentschieden!')
 ````
-In diesem Abschnitt wird, solange bis das Spielbrett voll ist oder jemand gewonnen hat, das eigentliche Spiel laufen gelassen. Dafür rufen wir die Methode `play` der `Game` Instanz auf und übergeben dieser die Instanzen der beiden Spieler. Zudem geben wir in diesem Teil auch falls jemand gewonnen hat, den Namen des Gewinners, seine Farbe und die Steine aus, mit denen er gewonnen hat. Falls das Spiel unentschieden ist, wird das ebenfalls hier ausgegeben.
+In diesem Abschnitt wird, solange bis das Spielbrett voll ist oder jemand gewonnen hat, das eigentliche Spiel laufen gelassen. Dafür rufen wir die Methode `play` der `Game` Instanz auf und übergeben dieser die Instanzen der beiden Spieler. Zudem geben wir in diesem Teil auch, falls jemand gewonnen hat, den Namen des Gewinners, seine Farbe und die Steine aus, mit denen er gewonnen hat. Falls das Spiel unentschieden ist, wird das ebenfalls hier ausgegeben.
 
 #### Die Spiele-Klasse (connect_four_game.py)
-In dieser Klasse findet das eigentliche Spiel statt, so werden in dieser Klasse die Spielzüge durchgeführt, bestimmt wer am Zug ist und der Algorithmus der KI ist ebenfalls in dieser Klasse.
+In dieser Klasse findet das eigentliche Spiel statt, so werden in dieser Klasse die Spielzüge durchgeführt, bestimmt, wer am Zug ist und der Algorithmus der KI ist ebenfalls in dieser Klasse.
 ````python
 def set_ai(self):
     """ The AI algorithm, it wants to either win or avoid losing if neither is possible it will put the token in a random column """
@@ -382,7 +382,7 @@ def set_ai(self):
     self.board.set_token(choice(valid_columns), 2)
     self.active_player = 1
 ````
-Dies ist die Methode des KI-Algorithmus, als Erstes werden alle möglichen Spalten ermittelt. Im ersten Abschnitt prüft die KI dann mit der Methode `get_winning_positions` der "Board-Klasse" ob es eine Spalte gibt, die die KI nutzen könnte, um zu gewinnen oder den Nutzer zumindest am Gewinnen zu hindern (dabei, wird der Sieg natürlich bevorzugt). Gibt es keine Spalte, in der dies der Fall ist, wird eine zufällige Spalte ausgewählt. Es wird vorher allerdings noch geprüft, ob der Zug vorteilhaft für den Gegner ist, also ob man durch seinen Zug den Gegner es ermöglicht vier nebeneinander zulegen (dafür ist der zweite Abschnitt da), falls dies nicht der Fall ist oder es keine andere Möglichkeit gibt, legt die KI.
+Dies ist die Methode des KI-Algorithmus, als Erstes werden alle möglichen Spalten ermittelt. Im ersten Abschnitt prüft die KI dann mit der Methode `get_winning_positions` der "Board-Klasse", ob es eine Spalte gibt, die die KI nutzen könnte, um zu gewinnen oder den Nutzer zumindest am Gewinnen zu hindern (dabei, wird der Sieg natürlich bevorzugt). Gibt es keine Spalte, in der dies der Fall ist, wird eine zufällige Spalte ausgewählt. Es wird vorher allerdings noch geprüft, ob der Zug vorteilhaft für den Gegner ist, also ob man durch seinen Zug den Gegner es ermöglicht vier nebeneinander zulegen (dafür ist der zweite Abschnitt da), falls dies nicht der Fall ist oder es keine andere Möglichkeit gibt, legt die KI.
 ````python
 def play(self):
     color_helper = {'RED': 'Rot', 'GREEN': 'Grün', 'YELLOW': 'Gelb', 'BLUE': 'Blau'}
@@ -418,4 +418,4 @@ Dies ist die Klasse für das Spielfeld, sie enthält Methoden zum Setzten und Au
 In dieser Klasse findet das eigentliche Spiel statt, so werden in dieser Klasse die Spielzüge durchgeführt, bestimmt wer am Zug ist und der Algorithmus der KI ist ebenfalls in dieser Klasse.
 
 ## Fazit
-Abschließend kann man sagen, dass das Projekt "Vier gewinnt" eine ziemliche Herausforderung war, da wir keine richtige Aufgabenstellung vom Lehrer erhalten haben und wir uns am Protokoll des Schülers orientieren mussten. Auch gab es Missverständnisse und wurden zu philosophischen Gedankengänge verleitet, weil wir manchmal nicht genau wussten, warum eine Methode genau genutzt werden sollte und manche dieser Methoden uns überflüssig erschienen sind. Jedoch ist uns beim Nachfragen des Lehrers und der Definitionserklärung der Methoden von den Schülern uns gelungen, das Projekt fertigzustellen.
+Abschließend kann man sagen, dass das Projekt "Vier Gewinnt" eines der Projekte ist, welches man als fertiges Spiel später auch öfters zum Spielen benutzen kann. Das Entwickeln des Spiels hat einige Zeit in Anspruch genommen, jedoch zum Schluss beim Testen des Spiels uns besonders viel Spaß bereitet.
