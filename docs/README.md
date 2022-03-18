@@ -102,7 +102,7 @@ VIER GEWINNT
 
 Spieler 1 (Rot) ist am Zug >> 
 ````
-Danach geht das Spiel weiter, bis Spielbrett voll ist oder jemand gewonnen hat:
+Danach geht das Spiel weiter, bis Spielbrett voll ist oder jemand gewonnen hat.
 
 ##### Der Benutzer hat gewonnen:
 ````
@@ -414,8 +414,61 @@ def play(self):
 Dies ist die Spiele Methode, in dieser werden die eigentlichen Spielzüge durchgeführt oder die KI aufgerufen. Zudem werden hier auch Fehler wie eine fehlerhafte Eingabe der Spalte oder die Eingabe einer vollen Spalte behandelt und eine Fehlermeldung für den Benutzer ausgegeben.
 
 #### Die Spielfeld-Klasse (connect_four_board.py)
-Dies ist die Klasse für das Spielfeld, sie enthält Methoden zum Setzten und Auslesen von Spielsteinen, zum Ausgeben des Spielfelds, zum zurücksetzten des Spielfelds und zum überprüfen 
-In dieser Klasse findet das eigentliche Spiel statt, so werden in dieser Klasse die Spielzüge durchgeführt, bestimmt wer am Zug ist und der Algorithmus der KI ist ebenfalls in dieser Klasse.
+Dies ist die Klasse für das Spielfeld, sie enthält Methoden zum setzten und Auslesen von Spielsteinen, zum Ausgeben des Spielfelds, zum zurücksetzten des Spielfelds und zum Überprüfen.
+In dieser Klasse findet das eigentliche Spiel statt, so werden in dieser Klasse die Spielzüge durchgeführt, bestimmt, wer am Zug ist und der Algorithmus der KI ist ebenfalls in dieser Klasse enthalten.
+
+Als erstes werden die Konstanten festgesetzt die das Spielbrett aufnehmn soll. Also die Spieler während des Spiels definiert, die Größe des Spielfeldes und welche Eingaben akzeptiert werden soll. 
+````python
+class ConnectFourBoard:
+    """ Board to play ConnectFour. Pos(x,y) | pos(0,0) lower left-hand corner | xmax = 7 ymax = 6 """
+    EMPTY = 0
+    PLAYER1 = 1
+    PLAYER2 = 2
+    X_MAX = 7  # 7 columns
+    Y_MAX = 6  # 6 rows
+
+    identifier = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+````
+Als nächstes wird definiert wie das Spielbrett zurückgesetzt wird. Dabei wird beim zurücksetzten bzw. beim Starten die Spielfelder des Spielbrettes mit Nullen gefüllt.
+````python
+def __init__(self):
+        self.reset_board()
+
+    def reset_board(self):
+        """ Write zeros into every field """
+        self.field = [[0 for _ in range(self.Y_MAX)] for _ in range(self.X_MAX)]
+````
+Dann wird definiert was als Spielbrett ausgegeben bzw. geprintet wird.
+
+````python
+def print_board(self, p1_color='RED', p2_color='YELLOW'):
+        """ Show the board in a console grid """
+        exec(clear_cmd)
+        print('\nVIER GEWINNT\n')
+
+        sep = '+'
+        for _ in range(self.X_MAX):
+            sep += '------+'
+        print(sep)
+
+        translated_colors = {'RED': '🔴', 'GREEN': '🟢', 'YELLOW': '🟡', 'BLUE': '🔵'}
+
+        for row in reversed(range(self.Y_MAX)):
+            for column in range(self.X_MAX):
+                if self.field[column][row] == self.EMPTY:
+                    print('|    ', end='  ')
+                elif self.field[column][row] == self.PLAYER1:
+                    print(f'|  {translated_colors[p1_color]}', end='  ')
+                elif self.field[column][row] == self.PLAYER2:
+                    print(f'|  {translated_colors[p2_color]}', end='  ')
+            print('|\n' + sep)
+
+        # Print identifiers
+        for i in range(self.X_MAX):
+            print('    ' + self.identifier[i], end='  ')
+
+        print('\n')
+````
 
 ## Fazit
 Abschließend kann man sagen, dass das Projekt "Vier Gewinnt" eines der Projekte ist, welches man als fertiges Spiel später auch öfters zum Spielen benutzen kann. Das Entwickeln des Spiels hat einige Zeit in Anspruch genommen, jedoch zum Schluss beim Testen des Spiels uns besonders viel Spaß bereitet.
