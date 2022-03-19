@@ -415,7 +415,6 @@ Dies ist die Spiele Methode, in dieser werden die eigentlichen Spielzüge durchg
 
 #### Die Spielfeld-Klasse (connect_four_board.py)
 Dies ist die Klasse für das Spielfeld, sie enthält Methoden zum setzten und Auslesen von Spielsteinen, zum Ausgeben des Spielfelds, zum zurücksetzten des Spielfelds und zum Überprüfen.
-In dieser Klasse findet das eigentliche Spiel statt, so werden in dieser Klasse die Spielzüge durchgeführt, bestimmt, wer am Zug ist und der Algorithmus der KI ist ebenfalls in dieser Klasse enthalten.
 
 Als erstes werden die Konstanten festgesetzt die das Spielbrett aufnehmn soll. Also die Spieler während des Spiels definiert, die Größe des Spielfeldes und welche Eingaben akzeptiert werden soll. 
 ````python
@@ -432,42 +431,42 @@ class ConnectFourBoard:
 Als nächstes wird definiert wie das Spielbrett zurückgesetzt wird. Dabei wird beim zurücksetzten bzw. beim Starten die Spielfelder des Spielbrettes mit Nullen gefüllt.
 ````python
 def __init__(self):
-        self.reset_board()
+    self.reset_board()
 
-    def reset_board(self):
-        """ Write zeros into every field """
-        self.field = [[0 for _ in range(self.Y_MAX)] for _ in range(self.X_MAX)]
+def reset_board(self):
+    """ Write zeros into every field """
+    self.field = [[0 for _ in range(self.Y_MAX)] for _ in range(self.X_MAX)]
 ````
 Dann wird definiert was als Spielbrett ausgegeben bzw. geprintet wird.
 
 ````python
 def print_board(self, p1_color='RED', p2_color='YELLOW'):
-        """ Show the board in a console grid """
-        exec(clear_cmd)
-        print('\nVIER GEWINNT\n')
+    """ Show the board in a console grid """
+    exec(clear_cmd)
+    print('\nVIER GEWINNT\n')
 
-        sep = '+'
-        for _ in range(self.X_MAX):
-            sep += '------+'
-        print(sep)
+    sep = '+'
+    for _ in range(self.X_MAX):
+        sep += '------+'
+    print(sep)
 
-        translated_colors = {'RED': '🔴', 'GREEN': '🟢', 'YELLOW': '🟡', 'BLUE': '🔵'}
+    translated_colors = {'RED': '🔴', 'GREEN': '🟢', 'YELLOW': '🟡', 'BLUE': '🔵'}
 
-        for row in reversed(range(self.Y_MAX)):
-            for column in range(self.X_MAX):
-                if self.field[column][row] == self.EMPTY:
-                    print('|    ', end='  ')
-                elif self.field[column][row] == self.PLAYER1:
-                    print(f'|  {translated_colors[p1_color]}', end='  ')
-                elif self.field[column][row] == self.PLAYER2:
-                    print(f'|  {translated_colors[p2_color]}', end='  ')
-            print('|\n' + sep)
+    for row in reversed(range(self.Y_MAX)):
+        for column in range(self.X_MAX):
+            if self.field[column][row] == self.EMPTY:
+                print('|    ', end='  ')
+            elif self.field[column][row] == self.PLAYER1:
+                print(f'|  {translated_colors[p1_color]}', end='  ')
+            elif self.field[column][row] == self.PLAYER2:
+                print(f'|  {translated_colors[p2_color]}', end='  ')
+        print('|\n' + sep)
 
-        # Print identifiers
-        for i in range(self.X_MAX):
-            print('    ' + self.identifier[i], end='  ')
+    # Print identifiers
+    for i in range(self.X_MAX):
+        print('    ' + self.identifier[i], end='  ')
 
-        print('\n')
+    print('\n')
 ````
 
 ## Fazit
