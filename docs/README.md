@@ -416,7 +416,7 @@ Dies ist die Spiele Methode, in dieser werden die eigentlichen Spielzüge durchg
 #### Die Spielfeld-Klasse (connect_four_board.py)
 Dies ist die Klasse für das Spielfeld, sie enthält Methoden zum setzten und Auslesen von Spielsteinen, zum Ausgeben des Spielfelds, zum zurücksetzten des Spielfelds und zum Überprüfen.
 
-Als erstes werden die Konstanten festgesetzt die das Spielbrett aufnehmn soll. Also die Spieler während des Spiels definiert, die Größe des Spielfeldes und welche Eingaben akzeptiert werden soll. 
+Als Erstes werden die Konstanten festgesetzt, die das Spielbrett aufnehme soll. Also die Spieler während des Spiels definiert die Größe des Spielfeldes und welche Eingaben akzeptiert werden soll.
 ````python
 class ConnectFourBoard:
     """ Board to play ConnectFour. Pos(x,y) | pos(0,0) lower left-hand corner | xmax = 7 ymax = 6 """
@@ -428,7 +428,7 @@ class ConnectFourBoard:
 
     identifier = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 ````
-Als nächstes wird definiert wie das Spielbrett zurückgesetzt wird. Dabei wird beim zurücksetzten bzw. beim Starten die Spielfelder des Spielbrettes mit Nullen gefüllt.
+Als Nächstes wird definiert, wie das Spielbrett zurückgesetzt wird. Dabei wird beim zurücksetzten bzw. beim Starten die Spielfelder des Spielbrettes mit Nullen gefüllt.
 ````python
 def __init__(self):
     self.reset_board()
@@ -437,8 +437,7 @@ def reset_board(self):
     """ Write zeros into every field """
     self.field = [[0 for _ in range(self.Y_MAX)] for _ in range(self.X_MAX)]
 ````
-Dann wird definiert was als Spielbrett ausgegeben bzw. geprintet wird.
-
+Dann wird definiert, was als Spielbrett ausgegeben bzw. geprintet wird, hier werden denn verschiedenen Farben auch das passende Emoji zugewiesen.
 ````python
 def print_board(self, p1_color='RED', p2_color='YELLOW'):
     """ Show the board in a console grid """
@@ -467,6 +466,83 @@ def print_board(self, p1_color='RED', p2_color='YELLOW'):
         print('    ' + self.identifier[i], end='  ')
 
     print('\n')
+````
+Mit diesen beiden Methoden werden die Spielsteine ausgelesen oder gesetzt, beim setzten eines Spielsteines werden außerdem die passenden Methoden zum Überprüfen, ob die Eingabe korrekt ist aufgerufen.
+````python
+def set_token(self, column: int, token: int):
+    """ Check for validity and set the token """
+    if self.is_board_full():
+        raise BoardFullError('The board is completely filled!')
+    elif column > self.X_MAX:
+        raise IndexError() from None
+    elif self.is_col_full(column):
+        raise ColumnFullError('This column is already full!')
+    else:
+        self.field[column][self.field[column].index(0)] = token
+
+def get_token(self, x_pos, y_pos) -> int:
+    """ Get token at specified position """
+    return self.field[x_pos][y_pos]
+````
+Dies sind die Methoden zum überprüfen, ob das Spielbrett bzw. die Spalte voll ist, dies geschieht durch das überprüfen, ob Nullen in der jeweiligen Spalten oder dem Spielbrett vorhanden sind.
+````python
+def is_board_full(self) -> bool:
+    """ Check, if the board is full """
+    if not any(self.EMPTY in i for i in self.field):
+        return True
+    else:
+        return False
+
+def is_col_full(self, x_pos) -> bool:
+    """ Tell if column is fully occupied """
+    if self.EMPTY in self.field[x_pos]:
+        return False
+    else:
+        return True
+````
+In diesen letzten beiden Methoden der Klasse wird überprüft, ob jemand gewonnen hat und mit welchen Steinen gewonnen wurde. Das Überprüfen funktioniert, in dem jedes Feld auf horizontale, vertikale und diagonale Gewinnfälle überprüft werden. Die Methode überprüft nur die Felder, in den die unterschiedlichen Gewinnmöglichkeiten möglich sind, zudem ist es auch möglich, andere Spielbretter zu überprüfen, indem man ein passendes Spielfeld der Methode übergibt dies ist für die KI von Relevanz.
+````python
+def is_winning(self) -> bool:
+    """ Tell if winning was achieved by a player """
+    if self.get_winning_positions(self.field):
+        return True
+    else:
+        return False
+
+def get_winning_positions(self, board=None):
+    if board is None:
+        board = self.field
+        
+    """ Check, if there is a win-situation and return the position """
+    # Check horizontally
+    for column in range(self.X_MAX - 3):
+        for row in range(self.Y_MAX):
+            if board[column][row] == board[column + 1][row] == board[column + 2][row] == board[column + 3][row] != self.EMPTY:
+                return [[column, row], [column + 1, row], [column + 2, row], [column + 3, row]]
+
+    # Check vertically
+    for row in range(self.Y_MAX - 3):
+        for column in range(self.X_MAX):
+            if board[column][row] == board[column][row + 1] == board[column][row + 2] == board[column][row + 3] != self.EMPTY:
+                return [[column, row], [column, row + 1], [column, row + 2], [column, row + 3]]
+
+    # Skip diagonal checks if column count is less than 4
+    if self.X_MAX < 4:
+        return False
+            
+    # Check up-diagonally
+    for column in range(self.X_MAX - 3):
+        for row in range(self.Y_MAX - 3):
+            if board[column][row] == board[column + 1][row + 1] == board[column + 2][row + 2] == board[column + 3][row + 3] != self.EMPTY:
+                return [[column, row], [column + 1, row + 1], [column + 2, row + 2], [column + 3, row + 3]]
+
+    # Check down-diagonally
+    for column in range(self.X_MAX - 3):
+        for row in range(3, self.Y_MAX):
+            if board[column][row] == board[column + 1][row - 1] == board[column + 2][row - 2] == board[column + 3][row - 3] != self.EMPTY:
+                return [[column, row], [column + 1, row - 1], [column + 2, row - 2], [column + 3, row - 3]]
+
+    return False
 ````
 
 ## Fazit
