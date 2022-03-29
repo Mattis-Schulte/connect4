@@ -5,7 +5,15 @@ Am Anfang hat der Lehrer das "Vier Gewinnt"-Spiel erklärt. Dabei hatte ein Sch�
 
 - Die vorgegebenen leeren Methoden des Lehrers mussten benutzt werden.
 - Unten Links muss der Startpunkt sein (x=0/y=0)(wie im Koordinatensystem).
-- EXTRA: Als extra kann man neben der Auswahl zum Zweispielermodus auch ein KI-Modus einbauen, sodass man alleine gegen einen Computerspieler spielen kann.
+- Ein Konsolenspiel mit zwei Spielern ist möglich.
+- Ausnahmen im Programmablauf werden sauber abgewickelt und führen nicht zum Programmabbruch.
+- Fehlerhafte Eingaben werden abgefangen.
+- Am Ende wird der Gewinner angezeigt und welche Steine gesetzt worden sind, die zum Gewinn des Spielers führten.
+- Die verschiedenen Spielstände werden alle korrekt erkannt.
+
+Erweiterungen für eine bessere Punktzahl: 
+- Neben der Auswahl zum Zweispielermodus auch ein KI-Modus einbauen, sodass man alleine gegen einen künstlichen Spieler spielen kann.
+- Einen Unittest entwickeln, der mindestens 15 Tests beinhaltet und welche, die das Gewinnen überprüfen.
 
 
 ## Liste der verwendeten Ausstattung 
@@ -416,7 +424,7 @@ Dies ist die Spiele Methode, in dieser werden die eigentlichen Spielzüge durchg
 #### Die Spielfeld-Klasse (connect_four_board.py)
 Dies ist die Klasse für das Spielfeld, sie enthält Methoden zum setzten und Auslesen von Spielsteinen, zum Ausgeben des Spielfelds, zum zurücksetzten des Spielfelds und zum Überprüfen.
 
-Als Erstes werden die Konstanten festgesetzt, die das Spielbrett aufnehme soll. Also die Spieler während des Spiels definiert die Größe des Spielfeldes und welche Eingaben akzeptiert werden soll.
+Als Erstes werden die Konstanten festgesetzt, die das Spielbrett aufnehmen soll. Also die Spieler während des Spiels definiert die Größe des Spielfeldes und welche Eingaben akzeptiert werden soll.
 ````python
 class ConnectFourBoard:
     """ Board to play ConnectFour. Pos(x,y) | pos(0,0) lower left-hand corner | xmax = 7 ymax = 6 """
@@ -484,7 +492,7 @@ def get_token(self, x_pos, y_pos) -> int:
     """ Get token at specified position """
     return self.field[x_pos][y_pos]
 ````
-Dies sind die Methoden zum überprüfen, ob das Spielbrett bzw. die Spalte voll ist, dies geschieht durch das überprüfen, ob Nullen in der jeweiligen Spalten oder dem Spielbrett vorhanden sind.
+Dies sind die Methoden zum Überprüfen, ob das Spielbrett bzw. die Spalte voll ist, dies geschieht durch das überprüfen, ob Nullen in der jeweiligen Spalten oder dem Spielbrett vorhanden sind.
 ````python
 def is_board_full(self) -> bool:
     """ Check, if the board is full """
@@ -500,7 +508,7 @@ def is_col_full(self, x_pos) -> bool:
     else:
         return True
 ````
-In diesen letzten beiden Methoden der Klasse wird überprüft, ob jemand gewonnen hat und mit welchen Steinen gewonnen wurde. Das Überprüfen funktioniert, in dem jedes Feld auf horizontale, vertikale und diagonale Gewinnfälle überprüft werden. Die Methode überprüft nur die Felder, in den die unterschiedlichen Gewinnmöglichkeiten möglich sind, zudem ist es auch möglich, andere Spielbretter zu überprüfen, indem man ein passendes Spielfeld der Methode übergibt dies ist für die KI von Relevanz.
+In diesen letzten beiden Methoden der Klasse wird überprüft, ob jemand gewonnen hat und mit welchen Steinen gewonnen wurde. Das Überprüfen funktioniert, in dem jedes Feld auf horizontale, vertikale und diagonale Gewinnfälle überprüft werden. Die Methode überprüft nur die Felder, in den die unterschiedlichen Gewinnmöglichkeiten möglich sind, zudem ist es auch möglich, andere Spielbretter zu überprüfen, indem man ein passendes Spielfeld der Methode übergibt, dies ist für die KI von Relevanz.
 ````python
 def is_winning(self) -> bool:
     """ Tell if winning was achieved by a player """
