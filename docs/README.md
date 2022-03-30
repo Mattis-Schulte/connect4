@@ -332,17 +332,17 @@ In diesem Teil des Codes wird der Benutzer nach seinem Namen und seiner Farbe ge
 
 ````python
 # Running the actual game
-while not (Board.is_board_full()) and not (Board.get_winning_positions(Board.field)):
+while not (Board.is_board_full()) and not (Board.get_winning_positions()):
     Game.play()
 else:
     Board.print_board(p1.color, p2.color)
     if Board.get_winning_positions(Board.field):
-        winner_token_owner = Board.get_token(Board.get_winning_positions(Board.field)[0][0], Board.get_winning_positions(Board.field)[0][1])
+        winner_token_owner = Board.get_token(Board.get_winning_positions()[0][0], Board.get_winning_positions()[0][1])
         exec('winner_name = p' + str(winner_token_owner) + '.name')
         exec('winner_color = p' + str(winner_token_owner) + '.color')
         winner_color = color_helper[winner_color]
         print(f'{winner_name} ({winner_color}) hat mit folgenden Steinen gewonnen: ', end='')
-        [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions(Board.field)]
+        [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions()]
         print()
     elif Board.is_board_full():
         print('Das Spiel ist unentschieden!')
@@ -434,7 +434,7 @@ class ConnectFourBoard:
     X_MAX = 7  # 7 columns
     Y_MAX = 6  # 6 rows
 
-    identifier = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    identifier = ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')
 ````
 Als Nächstes wird definiert, wie das Spielbrett zurückgesetzt wird. Dabei wird beim zurücksetzten bzw. beim Starten die Spielfelder des Spielbrettes mit Nullen gefüllt.
 ````python
@@ -517,7 +517,7 @@ def is_winning(self) -> bool:
     else:
         return False
 
-def get_winning_positions(self, board=None):
+def get_winning_positions(self, board=None) -> tuple:
     if board is None:
         board = self.field
         
@@ -526,13 +526,13 @@ def get_winning_positions(self, board=None):
     for column in range(self.X_MAX - 3):
         for row in range(self.Y_MAX):
             if board[column][row] == board[column + 1][row] == board[column + 2][row] == board[column + 3][row] != self.EMPTY:
-                return [[column, row], [column + 1, row], [column + 2, row], [column + 3, row]]
+                return ((column, row), (column + 1, row), (column + 2, row), (column + 3, row))
 
     # Check vertically
     for row in range(self.Y_MAX - 3):
         for column in range(self.X_MAX):
             if board[column][row] == board[column][row + 1] == board[column][row + 2] == board[column][row + 3] != self.EMPTY:
-                return [[column, row], [column, row + 1], [column, row + 2], [column, row + 3]]
+                return ((column, row), (column, row + 1), (column, row + 2), (column, row + 3))
 
     # Skip diagonal checks if column count is less than 4
     if self.X_MAX < 4:
@@ -542,13 +542,13 @@ def get_winning_positions(self, board=None):
     for column in range(self.X_MAX - 3):
         for row in range(self.Y_MAX - 3):
             if board[column][row] == board[column + 1][row + 1] == board[column + 2][row + 2] == board[column + 3][row + 3] != self.EMPTY:
-                return [[column, row], [column + 1, row + 1], [column + 2, row + 2], [column + 3, row + 3]]
+                return ((column, row), (column + 1, row + 1), (column + 2, row + 2), (column + 3, row + 3))
 
     # Check down-diagonally
     for column in range(self.X_MAX - 3):
         for row in range(3, self.Y_MAX):
             if board[column][row] == board[column + 1][row - 1] == board[column + 2][row - 2] == board[column + 3][row - 3] != self.EMPTY:
-                return [[column, row], [column + 1, row - 1], [column + 2, row - 2], [column + 3, row - 3]]
+                return ((column, row), (column + 1, row - 1), (column + 2, row - 2), (column + 3, row - 3))
 
     return False
 ````
