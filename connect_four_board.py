@@ -20,7 +20,7 @@ class ConnectFourBoard:
     X_MAX = 7  # 7 columns
     Y_MAX = 6  # 6 rows
 
-    identifier = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    identifier = ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')
 
     def __init__(self):
         self.reset_board()
@@ -93,7 +93,7 @@ class ConnectFourBoard:
         else:
             return False
 
-    def get_winning_positions(self, board=None):
+    def get_winning_positions(self, board=None) -> tuple:
         if board is None:
             board = self.field
         
@@ -102,13 +102,13 @@ class ConnectFourBoard:
         for column in range(self.X_MAX - 3):
             for row in range(self.Y_MAX):
                 if board[column][row] == board[column + 1][row] == board[column + 2][row] == board[column + 3][row] != self.EMPTY:
-                    return [[column, row], [column + 1, row], [column + 2, row], [column + 3, row]]
+                    return ((column, row), (column + 1, row), (column + 2, row), (column + 3, row))
 
         # Check vertically
         for row in range(self.Y_MAX - 3):
             for column in range(self.X_MAX):
                 if board[column][row] == board[column][row + 1] == board[column][row + 2] == board[column][row + 3] != self.EMPTY:
-                    return [[column, row], [column, row + 1], [column, row + 2], [column, row + 3]]
+                    return ((column, row), (column, row + 1), (column, row + 2), (column, row + 3))
 
         # Skip diagonal checks if column count is less than 4
         if self.X_MAX < 4:
@@ -118,12 +118,12 @@ class ConnectFourBoard:
         for column in range(self.X_MAX - 3):
             for row in range(self.Y_MAX - 3):
                 if board[column][row] == board[column + 1][row + 1] == board[column + 2][row + 2] == board[column + 3][row + 3] != self.EMPTY:
-                    return [[column, row], [column + 1, row + 1], [column + 2, row + 2], [column + 3, row + 3]]
+                    return ((column, row), (column + 1, row + 1), (column + 2, row + 2), (column + 3, row + 3))
 
         # Check down-diagonally
         for column in range(self.X_MAX - 3):
             for row in range(3, self.Y_MAX):
                 if board[column][row] == board[column + 1][row - 1] == board[column + 2][row - 2] == board[column + 3][row - 3] != self.EMPTY:
-                    return [[column, row], [column + 1, row - 1], [column + 2, row - 2], [column + 3, row - 3]]
+                    return ((column, row), (column + 1, row - 1), (column + 2, row - 2), (column + 3, row - 3))
 
         return False

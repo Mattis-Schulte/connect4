@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Connect 4
-# Mattis Schulte | Sajan Sivapatham    2022-02-11
+# Mattis Schulte | Sajan Sivapatham    2022-03-30
 # Connect four to win, you can play either against a friend or a primitive AI
 
 # https://github.com/Mattis-Schulte/connect4
@@ -117,17 +117,17 @@ if __name__ == "__main__":
             Game = ConnectFourGame(p1, p2, Board, 2)
     
     # Running the actual game
-    while not (Board.is_board_full()) and not (Board.get_winning_positions(Board.field)):
+    while not (Board.is_board_full()) and not (Board.get_winning_positions()):
         Game.play()
     else:
         Board.print_board(p1.color, p2.color)
-        if Board.get_winning_positions(Board.field):
-            winner_token_owner = Board.get_token(Board.get_winning_positions(Board.field)[0][0], Board.get_winning_positions(Board.field)[0][1])
+        if Board.get_winning_positions():
+            winner_token_owner = Board.get_token(Board.get_winning_positions()[0][0], Board.get_winning_positions()[0][1])
             exec('winner_name = p' + str(winner_token_owner) + '.name')
             exec('winner_color = p' + str(winner_token_owner) + '.color')
             winner_color = color_helper[winner_color]
             print(f'{winner_name} ({winner_color}) hat mit folgenden Steinen gewonnen: ', end='')
-            [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions(Board.field)]
+            [print(f'({"|".join(str(x) for x in item)})', end=' ') for item in Board.get_winning_positions()]
             print()
         elif Board.is_board_full():
             print('Das Spiel ist unentschieden!')
