@@ -3,8 +3,8 @@
 
 class Color:
     RED = 1
-    YELLOW = 2
-    GREEN = 3
+    GREEN = 2
+    YELLOW = 3
     BLUE = 4
     COLORS = {RED: 'red', GREEN: 'green', YELLOW: 'yellow', BLUE: 'blue'}
     
